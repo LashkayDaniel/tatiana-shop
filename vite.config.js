@@ -10,4 +10,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@import "@/../scss/main.scss";`
+            }
+        }
+    }
 });
