@@ -7,13 +7,13 @@
                 <p class="schedule__subtitle">Сб-Нд: вихідний</p>
             </div>
 
-            <img class="logo" src="@/../img/logo.svg" alt="logo">
-
+            <router-link to="/">
+                <img class="logo" src="@/../img/logo.svg" alt="logo">
+            </router-link>
 
             <div class="links">
                 <slot name="links"></slot>
-                <!--                <a href="#" class="links__btn">Товари</a>-->
-                <!--                <a href="#" class="links__btn">Про нас</a>-->
+                <slot name="phone"></slot>
             </div>
         </div>
     </nav>
@@ -30,22 +30,23 @@ export default {
 .header {
     box-shadow: 0 4px 4px rgba(184, 164, 164, 0.25);
     width: 100%;
-    margin: 0;
     padding: 10px 0;
     color: #7D5151;
     background-color: $grey;
 }
 
 .container {
-    max-width: 1400px;
-    padding: 0 15px;
+    max-width: 1300px;
     margin: 0 auto;
+    height: 70px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .schedule {
+    position: absolute;
+    left: 0;
     font-size: 20px;
 
     &__title {
@@ -55,18 +56,24 @@ export default {
     }
 
     &__subtitle {
-        font-size: 18px;
+        font-size: 16px;
         color: #A38787;
     }
 }
 
 .logo {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     &:hover {
         opacity: 0.85;
     }
 }
 
 .links {
+    position: absolute;
+    right: 0;
     display: flex;
     gap: 25px;
 }
