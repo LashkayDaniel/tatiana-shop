@@ -30,15 +30,16 @@ export default {
 .header {
     box-shadow: 0 4px 4px rgba(184, 164, 164, 0.25);
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 20px;
     color: #7D5151;
     background-color: $grey;
+    align-items: center;
 }
 
 .container {
     max-width: 1300px;
-    margin: 0 auto;
     height: 70px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     position: relative;
@@ -51,7 +52,6 @@ export default {
 
     &__title {
         text-align: center;
-
         font-weight: 500;
     }
 
@@ -65,6 +65,7 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
+    cursor: pointer;
 
     &:hover {
         opacity: 0.85;
@@ -76,5 +77,42 @@ export default {
     right: 0;
     display: flex;
     gap: 25px;
+}
+
+
+///////   media queries
+@media (max-width: 1000px) {
+    .schedule {
+        font-size: 18px;
+
+        &__subtitle {
+            font-size: 14px;
+        }
+    }
+    .links {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 780px) {
+    .links, .schedule {
+        display: none;
+    }
+
+    .logo {
+        left: 0;
+        transform: translate(0%, -50%) scale(0.9);
+    }
+}
+
+@media (max-width: 580px) {
+
+    .container {
+        height: 50px;
+    }
+
+    .logo {
+        max-width: 200px;
+    }
 }
 </style>

@@ -3,16 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Магазин "Татьяна"</title>
-
-    <!-- Fonts -->
-    {{--        <link rel="preconnect" href="https://fonts.bunny.net">--}}
-    {{--        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />--}}
-
-    <!-- Styles -->
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/png">
     <style>
-        /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
         *, ::after, ::before {
             box-sizing: border-box;
             border-width: 0;

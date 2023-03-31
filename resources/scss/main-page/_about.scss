@@ -1,5 +1,4 @@
 .section {
-
     &__title {
     }
 
@@ -10,7 +9,8 @@
 
         p {
             text-align: center;
-            max-width: 70%;
+            width: 70%;
+            max-width: 1000px;
             margin: 0 auto;
             font-size: 18px;
             font-weight: 500;
@@ -31,8 +31,9 @@
 }
 
 .location-container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
+    padding: 15px 0;
 }
 
 .location {
@@ -48,38 +49,66 @@
     }
 
     &__address {
+        display: flex;
+        justify-content: center;
         font-size: 20px;
         font-weight: 600;
         color: #7C2222;
-        position: relative;
         margin-bottom: 20px;
-        padding: 20px;
+        padding: 20px 0;
         border: dashed 2px #541515;
         border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        align-items: center;
 
-        &:before {
-            content: url('@/../img/location.png');
-            position: absolute;
-            left: 20px;
-            bottom: 10px;
+        span {
+            background-image: url('@/../img/location.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: inline-block;
+            width: 40px;
+            height: 45px;
+            animation: location 3s ease-out infinite;
         }
+
+
+    }
+
+    @keyframes location {
+        0% {
+            transform: scale(.7);
+            opacity: .6;
+        }
+        50% {
+            transform: scale(1) translate(0, -10px);
+        }
+        90% {
+            transform: scale(.8);
+        }
+        100% {
+            transform: scale(1);
+        }
+
     }
 
     &__map {
         border-radius: 10px;
         box-shadow: -1px 17px 47px -26px rgba(0, 0, 0, 0.75);
-        width: 650px;
+        width: 100%;
         height: 400px;
     }
 
     &__info {
-        margin-top: 20px;
+        margin-top: 30px;
         margin-bottom: 50px;
         display: flex;
         width: 100%;
         justify-content: space-between;
     }
+
 }
+
 
 .info {
 
@@ -93,8 +122,14 @@
 
 .contacts {
     &__title {
-        text-decoration: solid underline #815D5D;
-        padding: 10px 0;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+
+        span {
+            display: inline-block;
+            border-bottom: dotted #815D5D;
+            padding-bottom: 2px;
+        }
 
     }
 
@@ -115,11 +150,112 @@
 
 .schedule {
     &__title {
-        text-decoration: solid underline #815D5D;
-        padding: 10px 0;
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+
+        span {
+            display: inline-block;
+            border-bottom: dotted #815D5D;
+            padding-bottom: 2px;
+        }
     }
 
     &__time {
         font-size: 18px;
+    }
+}
+
+
+///// media
+
+@media (max-width: 900px) {
+    .section {
+        &__description {
+
+            p {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .location-container {
+        max-width: 650px;
+    }
+
+    .location {
+        &__info {
+            font-size: 22px;
+        }
+
+        &__address {
+            font-size: 19px;
+
+        }
+    }
+}
+
+@media (max-width: 750px) {
+
+    .location-container {
+        max-width: 550px;
+    }
+
+    .location {
+        &__info {
+            font-size: 22px;
+        }
+
+        &__address {
+            font-size: 17px;
+
+        }
+    }
+}
+
+@media (max-width: 650px) {
+
+    .location-container {
+        max-width: 500px;
+    }
+
+    .location {
+        &__info {
+            font-size: 20px;
+        }
+
+        &__address {
+            font-size: 15px;
+        }
+
+        &__map {
+            height: 300px;
+        }
+    }
+}
+
+@media (max-width: 570px) {
+
+    .location-container {
+        max-width: 400px;
+    }
+
+    .location {
+        &__info {
+            font-size: 16px;
+        }
+
+        &__address {
+            font-size: 17px;
+        }
+
+        &__map {
+            height: 300px;
+        }
+    }
+    .contacts__phone {
+        font-size: 17px;
+    }
+    .schedule__time {
+        font-size: 15px;
     }
 }

@@ -67,6 +67,7 @@
                             <li>Жіночі</li>
                             <li>Чоловічі</li>
                             <li>Дитячі</li>
+                            <li>Дитячі</li>
                         </ul>
                         <router-link to="/products/vie">
                             <div class="block__btn">Переглянути</div>
@@ -102,21 +103,22 @@
         </section>
     </div>
 
+
     <section class="location">
         <div class="location-container">
             <p class="location__title">Ми знаходимося за адресою:</p>
-            <p class="location__address">м. Мукачево, вул. Габермана, 5 (Зелений ринок)</p>
+            <p class="location__address"><span></span>м. Мукачево, вул. Габермана, 5 (Зелений ринок)</p>
             <iframe class="location__map"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10586.791877149975!2d22.717918986785893!3d48.44313627411239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4739ab3db87d5163%3A0x1e0f57167951aa3f!2z0KHRltC70YzQv9C-!5e0!3m2!1suk!2sua!4v1679685221105!5m2!1suk!2sua"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             <div class="location__info">
                 <div class="info__contacts">
-                    <p class="contacts__title">Контакти:</p>
+                    <p class="contacts__title"><span>Контакти:</span></p>
                     <p class="contacts__phone">+38 (050) 995-11-22</p>
                 </div>
                 <div class="info__schedule">
-                    <p class="schedule__title">Графік роботи:</p>
+                    <p class="schedule__title"><span>Графік роботи:</span></p>
                     <p class="schedule__time">Пн-Пт: 9:00-18:00</p>
                     <p class="schedule__time">Сб-Нд: вихідний</p>
                 </div>
@@ -168,5 +170,17 @@ export default {
     margin: 0 auto;
 }
 
+@media (max-width: 1000px) {
+    .links__btn {
+        font-size: 16px;
+    }
+}
 
+///test
+
+@media (max-width: 450px) {
+    .slider__info {
+        display: none;
+    }
+}
 </style>
