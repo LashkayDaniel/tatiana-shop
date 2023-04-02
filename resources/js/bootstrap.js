@@ -5,10 +5,51 @@
  */
 
 import axios from 'axios';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.withCredentials = true;
 
+axios.interceptors.response.use(
+    response => {
+        // Обробка успішної відповіді
+        return response
+    },
+    error => {
+        // Обробка помилок відповіді
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    // Помилка авторизації
+                    error.message = 'Неправильний логін або пароль'
+                    break
+                case 422:
+                    // Помилка невірних даних
+                    error.message = 'Помилка валідації даних'
+                    break
+                case 500:
+                    // Помилка сервера
+                    error.message = 'Помилка сервера'
+                    break
+                default:
+                    error.message = 'Помилка ' + error.response.status
+            }
+        } else {
+            // Помилка відсутності відповіді
+            error.message = 'Немає відповіді з сервера'
+        }
+        return Promise.reject(error)
+    }
+);
+//
+// axios.interceptors.request.use((config) => {
+//     const token = localStorage.getItem('x_xsrf_token')
+//     if (token) {
+//         config.headers.Authorization = `Bearer ${token}`
+//     }
+//     return config
+// });
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

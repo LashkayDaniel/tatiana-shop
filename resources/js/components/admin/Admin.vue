@@ -1,5 +1,6 @@
 <template>
-    <div class="main">
+    <sign-in v-if="!loginSuccessfully  && !tokenExist" @loginSuccess="this.loginSuccessfully=true"/>
+    <div v-else class="main">
         <aside class="navbar">
             <div class="navbar__logo">
                 <router-link to="/">
@@ -35,20 +36,32 @@
 <script>
 import MainSetting from "../admin/MainSetting.vue";
 import ProductSetting from "../admin/ProductSetting.vue";
+import SignIn from "../admin/SignIn.vue";
 
 export default {
     name: "Admin",
     components: {
+        signIn: SignIn,
         mainSetting: MainSetting,
         productSetting: ProductSetting
     },
     data() {
         return {
+            tokenExist: false,
+            loginSuccessfully: false,
             showMainSetting: true,
             showProductSetting: false,
         }
     },
-    methods: {},
+    methods: {
+        getToken() {
+            const token = localStorage.getItem('x_xsrf_token');
+            token ? this.tokenExist = true : this.tokenExist = false;
+        }
+    },
+    mounted() {
+        this.getToken()
+    }
 }
 </script>
 

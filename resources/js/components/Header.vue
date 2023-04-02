@@ -3,8 +3,8 @@
         <div class="container">
             <div class="schedule">
                 <h2 class="schedule__title">Графік роботи</h2>
-                <p class="schedule__subtitle">Пн-Пт: 9:00-18:00</p>
-                <p class="schedule__subtitle">Сб-Нд: вихідний</p>
+                <p class="schedule__subtitle">{{ this.schedule.first }}</p>
+                <p class="schedule__subtitle">{{ this.schedule.second }}</p>
             </div>
 
             <router-link to="/">
@@ -21,7 +21,28 @@
 
 <script>
 export default {
-    name: "Header"
+    name: "Header",
+    data() {
+        return {
+            schedule: {
+                first: '',
+                second: ''
+            },
+        }
+    },
+    methods: {
+        getSchedule() {
+            axios.get('/api/settings/get')
+                .then(resp => {
+                    const schedule = resp.data.schedule.split(',');
+                    this.schedule.first = schedule[0]
+                    this.schedule.second = schedule[1]
+                })
+        }
+    },
+    mounted() {
+        this.getSchedule()
+    }
 }
 </script>
 

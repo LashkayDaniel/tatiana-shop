@@ -3,7 +3,7 @@
     <toTop/>
     <navbar>
         <template v-slot:phone>
-            <p class="phone">+38 (050) 995-11-22</p>
+            <p class="phone">{{ this.phoneNumber }}</p>
         </template>
     </navbar>
 
@@ -168,9 +168,22 @@ export default {
     components: {
         navbar: Header,
         toTop: ToTop
+    }, data() {
+        return {
+            phoneNumber: '',
+        }
+    },
+    methods: {
+        getPhoneNumber() {
+            axios.get('/api/settings/get')
+                .then(resp => {
+                    this.phoneNumber = resp.data.phone_number;
+                })
+        }
     },
     mounted() {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
+        this.getPhoneNumber();
     }
 }
 </script>

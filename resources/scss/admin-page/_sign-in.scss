@@ -1,0 +1,64 @@
+.main {
+    width: 100vw;
+    height: 100vh;
+    background-color: #4b5563;
+}
+
+.block {
+    margin: auto;
+    background-color: #8293a9;
+    padding: 15px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        text-align: center;
+        font-size: 25px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    &__title {
+        font-size: 17px;
+        font-weight: 500;
+        padding: 5px;
+    }
+
+    &__input {
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    &__btn {
+        padding: 7px 30px;
+        margin: 10px auto;
+        background-color: #16f8d6;
+        border-radius: 10px;
+        color: #4b5563;
+        font-size: 16px;
+        font-weight: 500;
+
+        &:hover {
+            opacity: .9;
+            transition: opacity .2s;
+            transform: scale(1.03);
+        }
+    }
+
+    &__label-success {
+        text-align: center;
+        color: #a2ff00;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    &__label-warning {
+        text-align: center;
+        border-radius: 3px;
+        font-weight: 500;
+        color: #f5cf15;
+        font-size: 15px;
+        transition: warning .9s ease;
+    }
+}

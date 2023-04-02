@@ -94,12 +94,7 @@
         <section class="section">
             <h2 id="about-us" class="section__title">Про нас</h2>
             <div class="section__description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam
-                    architecto consequatur culpa dicta dignissimos dolorem fugit impedit ipsum iusto laborum laudantium
-                    maiores maxime natus nemo omnis perferendis quae quaerat quam quasi quibusdam ratione recusandae
-                    repellat, tempore ut voluptatem voluptatibus voluptatum. Aperiam cum doloribus itaque neque porro
-                    repellat sequi unde.
-                </p></div>
+                <p>{{ this.main.aboutUs }}</p></div>
         </section>
     </div>
 
@@ -107,7 +102,7 @@
     <section class="location">
         <div class="location-container">
             <p class="location__title">Ми знаходимося за адресою:</p>
-            <p class="location__address"><span></span>м. Мукачево, вул. Габермана, 5 (Зелений ринок)</p>
+            <p class="location__address"><span></span>{{ this.main.address }}</p>
             <iframe class="location__map"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10586.791877149975!2d22.717918986785893!3d48.44313627411239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4739ab3db87d5163%3A0x1e0f57167951aa3f!2z0KHRltC70YzQv9C-!5e0!3m2!1suk!2sua!4v1679685221105!5m2!1suk!2sua"
                     allowfullscreen="" loading="lazy"
@@ -115,12 +110,12 @@
             <div class="location__info">
                 <div class="info__contacts">
                     <p class="contacts__title"><span>Контакти:</span></p>
-                    <p class="contacts__phone">+38 (050) 995-11-22</p>
+                    <p class="contacts__phone">{{ this.main.phone }}</p>
                 </div>
                 <div class="info__schedule">
                     <p class="schedule__title"><span>Графік роботи:</span></p>
-                    <p class="schedule__time">Пн-Пт: 9:00-18:00</p>
-                    <p class="schedule__time">Сб-Нд: вихідний</p>
+                    <p class="schedule__time">{{ this.main.schedule.first }}</p>
+                    <p class="schedule__time">{{ this.main.schedule.second }}</p>
                 </div>
             </div>
         </div>
@@ -142,6 +137,36 @@ export default {
         navbar: Header,
         toTop: ToTop,
     },
+    data() {
+        return {
+            main: {
+                schedule: {
+                    first: '',
+                    second: ''
+                },
+
+                phone: '',
+                aboutUs: '',
+                address: '',
+            }
+        }
+    },
+    methods: {
+        getMainInfo() {
+            axios.get('/api/settings/get')
+                .then(resp => {
+                    const mainInfo = resp.data;
+                    this.main.schedule.first = mainInfo.schedule.split(',')[0]
+                    this.main.schedule.second = mainInfo.schedule.split(',')[1]
+                    this.main.phone = mainInfo.phone_number
+                    this.main.aboutUs = mainInfo.about_us
+                    this.main.address = mainInfo.address
+                })
+        }
+    },
+    mounted() {
+        this.getMainInfo()
+    }
 
 }
 </script>

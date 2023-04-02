@@ -11,7 +11,7 @@ const routes = [
 
     {path: '/a/admin', name: 'admin', component: Admin},
 
-    {path: '/:pathMatch(.*)*', component: NotFound},
+    {path: '/:pathMatch(.*)*', name: 'notFound', component: NotFound},
 ];
 
 const router = createRouter({

@@ -6,6 +6,21 @@
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
+
+    &__error {
+        color: red;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    &__success {
+        background-color: #4b5563;
+        padding: 5px;
+        text-align: center;
+        color: #abe149;
+        font-weight: 600;
+
+    }
 }
 
 .schedule {
@@ -19,12 +34,14 @@
         margin: 5px 0;
         padding: 5px 10px;
         max-width: 50%;
+        border-radius: 10px;
     }
 }
 
 .block-title {
     font-size: 20px;
     font-weight: 500;
+    color: #803939;
 }
 
 .phone {
@@ -90,7 +107,7 @@
         }
 
         &--red {
-            background-color: rgba(238, 47, 47, 0.91);
+            background-color: rgba(231, 94, 49, 0.91);
             color: #341909;
 
         }
