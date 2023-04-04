@@ -9,23 +9,26 @@
     </navbar>
 
     <section class="slider">
-        <img src="@/../img/bg1.png" alt="slider image" class="slider__image">
-        <div class="slider__info">
-            Ми пропонуємо широкий вибір традиційних та сучасних вишиванок, що виготовлені з якісних матеріалів та
-            здатні
-            виразити Вашу унікальність та стиль.
+        <!--        <img src="@/../img/bg1.png" alt="slider image" class="slider__image">-->
+        <!--        :src="`/storage/uploads/${this.slider.slides[this.slider.currentSlideIndex].imageName}`"-->
 
-        </div>
-        <div class="slider__btn slider__btn-left"></div>
-        <div class="slider__btn slider__btn-right"></div>
+        <!--             :src="this.slider.slides[0].imageName"-->
+
+
+        <img class="slider__image"
+             :src="slider.slides[slider.currentSlideIndex].imageName"
+             alt="slider image">
+        <div class="slider__info">{{ slider.slides[slider.currentSlideIndex].description }}</div>
+        <div @click.prevent="this.prevSlide" class="slider__btn slider__btn-left"></div>
+        <div @click.prevent="this.nextSlide" class="slider__btn slider__btn-right"></div>
         <a href="#products" class="slider__btn-more">Детальніше</a>
         <div class="slider__count">
-            <span class="count__item count__item-active"></span>
-            <span class="count__item"></span>
-            <span class="count__item"></span>
-            <span class="count__item"></span>
+            <span class="count__item" v-for="(slide,index) in slider.slides"
+                  :class="{ 'count__item-active' : (index===slider.currentSlideIndex)}">
+            </span>
         </div>
     </section>
+
 
     <div class="container">
         <section class="section">
@@ -97,8 +100,6 @@
                 <p>{{ this.main.aboutUs }}</p></div>
         </section>
     </div>
-
-
     <section class="location">
         <div class="location-container">
             <p class="location__title">Ми знаходимося за адресою:</p>
@@ -120,13 +121,10 @@
             </div>
         </div>
     </section>
-
-
 </template>
 
 
 <script>
-
 import Header from "./Header.vue";
 import ToTop from "./ToTop.vue";
 
@@ -142,12 +140,29 @@ export default {
             main: {
                 schedule: {
                     first: '',
-                    second: ''
+                    second: '',
                 },
-
                 phone: '',
                 aboutUs: '',
                 address: '',
+            },
+            slider: {
+                slidess: [
+                    'https://via.placeholder.com/700x300?text=Slide+1',
+                    'https://via.placeholder.com/700x300?text=Slide+2',
+                    'https://via.placeholder.com/700x300?text=Slide+3',
+                    'https://via.placeholder.com/700x300?text=Slide+4',
+                    'https://via.placeholder.com/700x300?text=Slide+5',
+                ],
+                slides: [
+                    {
+                        imageName: 'https://via.placeholder.com/700x300?text=Slide+1',
+                        description: 'Ми пропонуємо широкий вибір традиційних та сучасних вишиванок, що виготовлені з якісних матеріалів та здатні виразити Вашу унікальність та стиль.'
+                    },
+                ],
+                currentSlideIndex: 0,
+                autoPlayTimer: null,
+                autoPlayDelay: 10000
             }
         }
     },
@@ -162,10 +177,40 @@ export default {
                     this.main.aboutUs = mainInfo.about_us
                     this.main.address = mainInfo.address
                 })
-        }
+        },
+
+        getSlides() {
+            axios.get('/api/slider/get')
+                .then(resp => {
+                    const slidesData = resp.data;
+
+                    slidesData.forEach((elem) => {
+                        let newSlide = {
+                            imageName: '/storage/uploads/' + elem.image_name,
+                            description: elem.description
+                        };
+                        this.slider.slides.push(newSlide);
+                    })
+                })
+        },
+
+        prevSlide() {
+            this.slider.currentSlideIndex--;
+            if (this.slider.currentSlideIndex < 0) {
+                this.slider.currentSlideIndex = this.slider.slides.length - 1;
+            }
+        },
+        nextSlide() {
+            this.slider.currentSlideIndex++;
+            if (this.slider.currentSlideIndex > this.slider.slides.length - 1) {
+                this.slider.currentSlideIndex = 0;
+            }
+        },
     },
     mounted() {
-        this.getMainInfo()
+        this.getMainInfo();
+        this.getSlides();
+        this.slider.autoPlayTimer = setInterval(this.nextSlide, this.slider.autoPlayDelay);
     }
 
 }

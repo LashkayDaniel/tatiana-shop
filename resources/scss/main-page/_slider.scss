@@ -1,5 +1,6 @@
 .slider {
     max-width: 1200px;
+    height: 650px;
     position: relative;
     margin: 15px auto;
 
@@ -43,8 +44,10 @@
     &__image {
         background-repeat: no-repeat;
         width: 100%;
-        height: auto;
+        height: 100%;
         padding: 0 20px;
+        background-size: cover;
+        opacity: .8;
     }
 
     &__info {
@@ -89,6 +92,7 @@
         gap: 5px;
 
     }
+
 }
 
 .count {

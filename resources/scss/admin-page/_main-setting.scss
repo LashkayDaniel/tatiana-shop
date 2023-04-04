@@ -1,5 +1,11 @@
+.wrapper {
+    display: flex;
+    margin: 10px;
+    overflow-x: auto;
+}
+
 .block {
-    max-width: 500px;
+    min-width: 500px;
     height: 100%;
     padding: 20px;
     display: flex;
@@ -27,7 +33,7 @@
     display: flex;
     flex-direction: column;
     padding: 15px;
-    border: solid 2px #6c4949;
+    border: solid 2px #7C2222;
     border-radius: 10px;
 
     &__time {
@@ -119,3 +125,93 @@
     }
 }
 
+.slider {
+    flex-grow: 1;
+    padding: 20px;
+    overflow: auto;
+    max-width: 600px;
+    max-height: 700px;
+
+    &__lists {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    &__add-new {
+        display: flex;
+        flex-direction: column;
+        border: dashed 2px #7a3333;
+        border-radius: 10px;
+        margin-top: 30px;
+        padding: 10px;
+        gap: 5px;
+    }
+}
+
+.lists {
+    &__title {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        color: #7a3333;
+        letter-spacing: 1px;
+
+    }
+
+    &__item {
+        display: flex;
+        gap: 10px;
+        border: dotted 2px #7a3333;
+        border-radius: 5px;
+        padding: 10px;
+        align-items: center;
+    }
+}
+
+.item {
+    &__img {
+        max-width: 40%;
+        max-height: 20%;
+    }
+
+    &__description {
+        flex-grow: 1;
+        text-align: left;
+        width: 50%;
+        word-wrap: break-word;
+    }
+}
+
+.add-new {
+    &__title {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    &__input {
+    }
+
+    &__description {
+        padding: 10px;
+        border-radius: 10px;
+        max-height: 200px;
+    }
+
+    &__btn {
+        padding: 8px 20px;
+        border-radius: 20px;
+        width: 100px;
+        background-color: rgba(231, 94, 49, 0.91);;
+        font-weight: 500;
+
+        &:hover {
+            cursor: pointer;
+            opacity: .7;
+            transition: opacity .5s;
+            transform: scale(1.05);
+        }
+    }
+}

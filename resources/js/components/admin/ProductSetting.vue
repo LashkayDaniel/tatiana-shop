@@ -22,110 +22,142 @@
             <button class="products-list__btn-add">Додати товар</button>
             <table class="products-list__table">
                 <tr>
-                    <th>Company</th>
-                    <th>Contact</th>
-                    <th>Country</th>
+                    <th>Назва товару</th>
+                    <th>Опис</th>
+                    <th>Ціна (грн)</th>
+                    <th></th>
                 </tr>
                 <tr>
                     <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>&#9998; edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Berglunds snabbköp</td>
-                    <td>Christina Berglund</td>
-                    <td>Sweden</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Ernst Handel</td>
-                    <td>Roland Mendel</td>
-                    <td>Austria</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Island Trading</td>
-                    <td>Helen Bennett</td>
-                    <td>UK</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Königlich Essen</td>
-                    <td>Philip Cramer</td>
-                    <td>Germany</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>Yoshi Tannamuri</td>
-                    <td>Canada</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>Giovanni Rovelli</td>
-                    <td>Italy</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>North/South</td>
-                    <td>Simon Crowther</td>
-                    <td>UK</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Paris spécialités</td>
-                    <td>Marie Bertrand</td>
-                    <td>France</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Königlich Essen</td>
-                    <td>Philip Cramer</td>
-                    <td>Germany</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>Yoshi Tannamuri</td>
-                    <td>Canada</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>Giovanni Rovelli</td>
-                    <td>Italy</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, odio.</td>
+                    <td>1000</td>
+                    <td>
+                        <button>edit</button>
+                        <hr>
+                        <button>remove</button>
+                    </td>
                 </tr>
-                <tr>
-                    <td>North/South</td>
-                    <td>Simon Crowther</td>
-                    <td>UK</td>
-                </tr>
-                <tr>
-                    <td>Paris spécialités</td>
-                    <td>Marie Bertrand</td>
-                    <td>France</td>
-                </tr>
-                <tr>
-                    <td>Königlich Essen</td>
-                    <td>Philip Cramer</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>Yoshi Tannamuri</td>
-                    <td>Canada</td>
-                </tr>
-                <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>Giovanni Rovelli</td>
-                    <td>Italy</td>
-                </tr>
-                <tr>
-                    <td>North/South</td>
-                    <td>Simon Crowther</td>
-                    <td>UK</td>
-                </tr>
-                <tr>
-                    <td>Paris spécialités</td>
-                    <td>Marie Bertrand</td>
-                    <td>France</td>
-                </tr>
+
             </table>
         </section>
     </div>

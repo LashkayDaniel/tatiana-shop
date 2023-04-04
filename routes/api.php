@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainSettingController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,11 @@ Route::prefix('/settings')->group(function () {
     Route::post('/create', [MainSettingController::class, 'store']);
     Route::get('/get', [MainSettingController::class, 'get']);
     Route::put('/update', [MainSettingController::class, 'update']);
+});
+
+Route::prefix('/slider')->group(function () {
+    Route::post('/create', [SliderController::class, 'store']);
+    Route::get('/get', [SliderController::class, 'get']);
 });
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
