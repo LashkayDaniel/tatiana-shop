@@ -9,14 +9,9 @@
     </navbar>
 
     <section class="slider">
-        <!--        <img src="@/../img/bg1.png" alt="slider image" class="slider__image">-->
-        <!--        :src="`/storage/uploads/${this.slider.slides[this.slider.currentSlideIndex].imageName}`"-->
-
-        <!--             :src="this.slider.slides[0].imageName"-->
-
-
         <img class="slider__image"
              :src="slider.slides[slider.currentSlideIndex].imageName"
+             @load="onImageLoaded"
              alt="slider image">
         <div class="slider__info">{{ slider.slides[slider.currentSlideIndex].description }}</div>
         <div @click.prevent="this.prevSlide" class="slider__btn slider__btn-left"></div>
@@ -138,6 +133,7 @@ export default {
     data() {
         return {
             main: {
+                imageLoaded: false,
                 schedule: {
                     first: '',
                     second: '',
@@ -206,13 +202,24 @@ export default {
                 this.slider.currentSlideIndex = 0;
             }
         },
+
+        onImageLoaded() {
+            this.imageLoaded = true
+        }
+
     },
     mounted() {
         this.getMainInfo();
         this.getSlides();
         this.slider.autoPlayTimer = setInterval(this.nextSlide, this.slider.autoPlayDelay);
+    },
+    computed: {
+        animationClass() {
+            return {
+                'animate-image': this.imageLoaded
+            }
+        }
     }
-
 }
 </script>
 
@@ -220,6 +227,19 @@ export default {
 @import "@/../scss/main-page/_slider.scss";
 @import "@/../scss/main-page/_products.scss";
 @import "@/../scss/main-page/_about.scss";
+
+.animate-image {
+    animation: image-fade-in 1s ease-out;
+}
+
+@keyframes image-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 .links {
     &__btn {

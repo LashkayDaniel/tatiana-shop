@@ -4,7 +4,6 @@
     position: relative;
     margin: 15px auto;
 
-
     &__btn {
         position: absolute;
         background-color: #e7dede;
@@ -47,7 +46,7 @@
         height: 100%;
         padding: 0 20px;
         background-size: cover;
-        opacity: .8;
+
     }
 
     &__info {
@@ -90,9 +89,28 @@
         min-width: 350px;
         height: 5px;
         gap: 5px;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
 
     }
+}
 
+@keyframes slider {
+    from {
+        opacity: .5;
+    }
+    to {
+        opacity: .9;
+    }
 }
 
 .count {

@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainSettingController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\VishivankiController;
+use App\Http\Controllers\VishivankiTagsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,15 @@ Route::prefix('/slider')->group(function () {
     Route::post('/create', [SliderController::class, 'store']);
     Route::get('/get', [SliderController::class, 'get']);
 });
+
+Route::prefix('/vishivanki')->group(function () {
+    Route::post('/new-tag', [VishivankiTagsController::class, 'store']);
+    Route::get('/get-tags', [VishivankiTagsController::class, 'get']);
+
+    Route::get('/get-all', [VishivankiController::class, 'get']);
+    Route::post('/create', [VishivankiController::class, 'store']);
+});
+
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);

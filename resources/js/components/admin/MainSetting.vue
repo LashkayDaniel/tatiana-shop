@@ -61,11 +61,10 @@
                        placeholder="Виберіть картинку">
                 <p class="block__error">{{ this.errors.slider.image }}</p>
                 <textarea class="add-new__description" v-model="slider.description"
-                          placeholder="Напишіть тест слайду"></textarea>
+                          placeholder="Напишіть тест слайду" required></textarea>
                 <p class="block__error">{{ this.errors.slider.description }}</p>
                 <p v-if="this.sliderSuccess.length!==0" class="block__success">{{ this.sliderSuccess }}</p>
                 <button class="add-new__btn" type="submit">Додати</button>
-
             </form>
         </section>
     </div>
@@ -186,7 +185,6 @@ export default {
                     }, 4000);
                 })
                 .catch(err => {
-                    console.log(err)
                     const errors = err.response.data.errors;
                     errors.hasOwnProperty('image') ? this.errors.slider.image = errors.image[0] : ''
                     errors.hasOwnProperty('description') ? this.errors.slider.description = errors.description[0] : ''
