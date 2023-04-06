@@ -16,144 +16,49 @@
             </div>
             <div class="block__right">
                 <div class="right__title-block">
-                    <div class="title-block__title">Вишиванки</div>
+                    <div class="title-block__title">{{ pageTitle }}</div>
                     <div class="title-block__btn-filters">
-                        <button class="btn-filters__button btn-filters__button--active">Всі</button>
-                        <button class="btn-filters__button">Жіночі</button>
-                        <button class="btn-filters__button">Чоловічі</button>
-                        <button class="btn-filters__button">Дитячі</button>
+                        <button class="btn-filters__button" v-for="(tag,index) in tags.tagsList"
+                                :key="index"
+                                @click="this.setActiveFilter(index)"
+                                :class="{'btn-filters__button--active' : this.tags.activeTag === index}">
+                            {{ tag }}
+                        </button>
                     </div>
                 </div>
                 <div class="right__products-list">
-                    <div class="products-list__item">
+                    <loader v-if="showLoading"/>
+
+                    <div v-else class="products-list__item" v-for="product in this.products.productList">
                         <div class="item__img">
-                            <img src="@/../img/img1.png" alt="item image"/>
+                            <img :src="product.image" alt="item image"/>
                         </div>
-                        <h2 class="item__title">Вишиванка чоловіча</h2>
+                        <h2 class="item__title">{{ product.title }}</h2>
                         <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
+                            <p class="descriptions__item" v-for="description in product.description">
+                                {{ description.name }}:
+                                <i>{{ description.value }}</i>
+                            </p>
+                            <p class="descriptions__tag">{{ product.tag }}</p>
                         </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img1.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка чоловіча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
-                    </div>
-                    <div class="products-list__item">
-                        <div class="item__img">
-                            <img src="@/../img/img4.png" alt="item image"/>
-                        </div>
-                        <h2 class="item__title">Вишиванка жіноча жіноча жіноча жіноча жіноча жіноча жіноча</h2>
-                        <div class="item__descriptions">
-                            <p class="descriptions__item">Розмір: <i>L</i></p>
-                            <p class="descriptions__item">Виробник: <i>Україна</i></p>
-                        </div>
-                        <div class="item__price">1000 грн</div>
+                        <div class="item__price">{{ product.price }} грн</div>
                     </div>
                 </div>
+
+                <nav class="pagination">
+                    <ul class="pagination__btns">
+                        <li class="btns__btn-prev" v-if="pagination.currentPage > 1"
+                            @click="goToPage(pagination.currentPage - 1)"><a>&laquo;</a></li>
+                        <li v-if="pagination.lastPage!==1" class="btns__btn" v-for="page in pagination.lastPage"
+                            :key="page"
+                            :class="{ 'btns__btn--active': page === pagination.currentPage }"
+                            @click="goToPage(page)">
+                            <a>{{ page }}</a>
+                        </li>
+                        <li class="btns__btn-next" v-if="pagination.currentPage < pagination.lastPage"
+                            @click="goToPage(pagination.currentPage + 1)"><a>&raquo;</a></li>
+                    </ul>
+                </nav>
             </div>
         </section>
     </div>
@@ -162,28 +67,141 @@
 <script>
 import Header from "./Header.vue";
 import ToTop from "./ToTop.vue";
+import Loader from "./Loader.vue";
 
 export default {
     name: "Products",
     components: {
         navbar: Header,
-        toTop: ToTop
-    }, data() {
+        toTop: ToTop,
+        loader: Loader,
+    },
+    data() {
         return {
             phoneNumber: '',
+            routeName: this.$route.params.slug,
+            pageTitle: '',
+            showLoading: true,
+
+            tags: {
+                tagsList: ['Всі'],
+                activeTag: 0,
+            },
+
+            products: {
+                productList: [],
+            },
+
+            pagination: {
+                currentPage: 1,
+                lastPage: 0,
+            },
         }
     },
     methods: {
+        toUp() {
+            window.scrollTo(0, 0);
+        },
         getPhoneNumber() {
             axios.get('/api/settings/get')
                 .then(resp => {
                     this.phoneNumber = resp.data.phone_number;
                 })
-        }
+        },
+
+        setActiveFilter(index) {
+            this.tags.activeTag = index;
+
+            this.getAllProducts(this.routeName);
+        },
+
+        goToPage(page) {
+            this.getAllProducts(this.routeName, page);
+            this.toUp();
+        },
+
+        //tags
+        getAllTags(sectionName) {
+            axios.get(`/api/${sectionName}/get-tags`)
+                .then(response => {
+                    const tags = response.data;
+                    tags.forEach(elem => {
+                        this.tags.tagsList.push(elem.name);
+                    });
+                })
+
+        },
+
+        // products
+        getAllProducts(sectionName, page = 1) {
+
+            const tagName = this.tags.activeTag === 0 ? 'all' : this.tags.tagsList[this.tags.activeTag];
+            axios.post(`/api/${sectionName}/get-all?page=${page}`, {
+                tag_name: tagName,
+            })
+                .then(response => {
+                    this.products.productList = [];
+                    const products = response.data.data;
+
+                    this.pagination.currentPage = response.data.current_page;
+                    this.pagination.lastPage = response.data.last_page;
+
+                    products.forEach(elem => {
+
+                        const descriptionItems = [];
+                        const description = elem.description.split('!');
+
+                        description.forEach(e => {
+                            const descriptionItem = {
+                                name: e.split(':')[0],
+                                value: e.split(':')[1]
+                            };
+                            descriptionItems.push(descriptionItem)
+                        })
+
+
+                        const product = {
+                            image: '/storage/uploads/products/vishivanki/' + elem.image,
+                            title: elem.title,
+                            description: descriptionItems,
+                            price: elem.price,
+                            tag: elem.vishivanki_tag.name
+                        };
+                        this.products.productList.push(product);
+                    })
+                    this.showLoading = false;
+
+                    console.log(products.productList);
+                });
+        },
     },
     mounted() {
-        window.scrollTo(0, 0);
+        this.toUp();
         this.getPhoneNumber();
+
+        this.getAllTags(this.routeName);
+
+
+        switch (this.routeName) {
+            case 'vishivanki':
+                this.pageTitle = 'Вишиванки';
+                this.getAllProducts(this.routeName);
+                break;
+            case 'biser':
+                this.pageTitle = 'Бісер';
+
+                break;
+            case 'schemes':
+                this.pageTitle = 'Схеми вишивок';
+
+                break;
+            case 'clothes':
+                this.pageTitle = 'Жіночий одяг';
+
+                break;
+            default:
+                this.$router.push({name: 'notFound'});
+        }
     }
 }
 </script>

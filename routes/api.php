@@ -39,9 +39,9 @@ Route::prefix('/vishivanki')->group(function () {
     Route::get('/get-tags', [VishivankiTagsController::class, 'get']);
 
     Route::get('/get-all', [VishivankiController::class, 'get']);
+    Route::post('/get-all', [VishivankiController::class, 'getAllWithParam']);
     Route::post('/create', [VishivankiController::class, 'store']);
 });
-
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);

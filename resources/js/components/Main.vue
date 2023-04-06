@@ -34,11 +34,9 @@
                     <div class="card__block">
                         <h2 class="block__title">Вишиванки</h2>
                         <ul class="block__items">
-                            <li>Жіночі</li>
-                            <li>Чоловічі</li>
-                            <li>Дитячі</li>
+                            <li v-for="tag in this.tags.vishivankiList">{{ tag }}</li>
                         </ul>
-                        <router-link to="/products/vie">
+                        <router-link to="/products/vishivanki">
                             <div class="block__btn">Переглянути</div>
                         </router-link>
                     </div>
@@ -52,7 +50,7 @@
                             <li>Чоловічі</li>
                             <li>Дитячі</li>
                         </ul>
-                        <router-link to="/products/vie">
+                        <router-link to="/products/biser">
                             <div class="block__btn">Переглянути</div>
                         </router-link>
                     </div>
@@ -67,7 +65,7 @@
                             <li>Дитячі</li>
                             <li>Дитячі</li>
                         </ul>
-                        <router-link to="/products/vie">
+                        <router-link to="/products/schemes">
                             <div class="block__btn">Переглянути</div>
                         </router-link>
                     </div>
@@ -81,7 +79,7 @@
                             <li>Чоловічі</li>
                             <li>Дитячі</li>
                         </ul>
-                        <router-link to="/">
+                        <router-link to="/products/clothes">
                             <div class="block__btn">Переглянути</div>
                         </router-link>
                     </div>
@@ -159,6 +157,11 @@ export default {
                 currentSlideIndex: 0,
                 autoPlayTimer: null,
                 autoPlayDelay: 10000
+            },
+
+            tags: {
+                vishivankiList: [],
+
             }
         }
     },
@@ -205,12 +208,26 @@ export default {
 
         onImageLoaded() {
             this.imageLoaded = true
-        }
+        },
+
+        ///tags
+        getVishivankiTags() {
+            this.tags.vishivankiList = []
+            axios.get('/api/vishivanki/get-tags')
+                .then(resp => {
+                    resp.data.forEach((e) => {
+                        this.tags.vishivankiList.push(e.name);
+                    });
+                })
+        },
 
     },
     mounted() {
         this.getMainInfo();
         this.getSlides();
+
+        this.getVishivankiTags();
+
         this.slider.autoPlayTimer = setInterval(this.nextSlide, this.slider.autoPlayDelay);
     },
     computed: {

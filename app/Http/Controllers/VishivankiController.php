@@ -11,10 +11,21 @@ class VishivankiController extends Controller
 {
     public function get()
     {
-//        $vis = Vishivanki::find(1);
-        return Vishivanki::with('vishivankiTag')->orderBy('id', 'desc')->get();
+        return Vishivanki::with('vishivankiTag')->orderBy('id', 'desc')->paginate(10);
 //        $vis = VishivankiTags::find(1);
 //        return $vis->vishivanki;
+    }
+
+    public function getAllWithParam(Request $request)
+    {
+        $tagName = $request->input('tag_name');
+
+        if ($tagName === 'all') {
+            return Vishivanki::with('vishivankiTag')->paginate(10);
+        }
+
+        $tag = VishivankiTags::where('name', $tagName)->first();
+        return Vishivanki::with('vishivankiTag')->where('vishivanki_tag_id', $tag->id)->paginate(5);
     }
 
     public function store(Request $request)
