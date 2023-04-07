@@ -53,6 +53,11 @@
 <script>
 export default {
     name: "AddProduct",
+
+    props: {
+        productName: String
+    },
+
     data() {
         return {
             image: '',
@@ -85,7 +90,7 @@ export default {
         ///
 
         getAllTags() {
-            axios.get('/api/vishivanki/get-tags')
+            axios.get(`/api/${this.productName}/get-tags`)
                 .then(resp => {
                     resp.data.forEach((e) => {
                         this.tags.push(e.name);
@@ -101,7 +106,7 @@ export default {
             formData.append('price', this.price);
             formData.append('tag_name', this.tag);
 
-            axios.post('/api/vishivanki/create', formData)
+            axios.post(`/api/${this.productName}/create`, formData)
                 .then(resp => {
                     this.addSuccess = resp.data.message;
 

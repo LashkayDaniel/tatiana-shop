@@ -46,9 +46,7 @@
                     <div class="card__block">
                         <h2 class="block__title">Бісер</h2>
                         <ul class="block__items">
-                            <li>Жіночі</li>
-                            <li>Чоловічі</li>
-                            <li>Дитячі</li>
+                            <li v-for="tag in this.tags.biserList">{{ tag }}</li>
                         </ul>
                         <router-link to="/products/biser">
                             <div class="block__btn">Переглянути</div>
@@ -58,7 +56,7 @@
                 <div class="items__card">
                     <img class="card__image" src="@/../img/img3.png" alt="">
                     <div class="card__block">
-                        <h2 class="block__title">Схеми вишивок</h2>
+                        <h2 class="block__title">Схеми для вишивання</h2>
                         <ul class="block__items">
                             <li>Жіночі</li>
                             <li>Чоловічі</li>
@@ -161,6 +159,9 @@ export default {
 
             tags: {
                 vishivankiList: [],
+                biserList: [],
+                schemesList: [],
+                clothesList: [],
 
             }
         }
@@ -220,6 +221,15 @@ export default {
                     });
                 })
         },
+        getBiserTags() {
+            this.tags.biserList = []
+            axios.get('/api/biser/get-tags')
+                .then(resp => {
+                    resp.data.forEach((e) => {
+                        this.tags.biserList.push(e.name);
+                    });
+                })
+        },
 
     },
     mounted() {
@@ -227,6 +237,7 @@ export default {
         this.getSlides();
 
         this.getVishivankiTags();
+        this.getBiserTags();
 
         this.slider.autoPlayTimer = setInterval(this.nextSlide, this.slider.autoPlayDelay);
     },

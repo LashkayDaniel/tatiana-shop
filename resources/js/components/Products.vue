@@ -36,7 +36,7 @@
                         <h2 class="item__title">{{ product.title }}</h2>
                         <div class="item__descriptions">
                             <p class="descriptions__item" v-for="description in product.description">
-                                {{ description.name }}:
+                                <b>{{ description.name }}: </b>
                                 <i>{{ description.value }}</i>
                             </p>
                             <p class="descriptions__tag">{{ product.tag }}</p>
@@ -161,12 +161,13 @@ export default {
 
 
                         const product = {
-                            image: '/storage/uploads/products/vishivanki/' + elem.image,
+                            image: `/storage/uploads/products/${sectionName}/${elem.image}`,
                             title: elem.title,
                             description: descriptionItems,
                             price: elem.price,
-                            tag: elem.vishivanki_tag.name
+                            tag: elem[`${sectionName}_tag`].name
                         };
+
                         this.products.productList.push(product);
                     })
                     this.showLoading = false;
@@ -189,7 +190,7 @@ export default {
                 break;
             case 'biser':
                 this.pageTitle = 'Бісер';
-
+                this.getAllProducts(this.routeName);
                 break;
             case 'schemes':
                 this.pageTitle = 'Схеми вишивок';

@@ -1,6 +1,7 @@
 <template>
 
     <add-product v-if="this.showAddProduct"
+                 :product-name="this.toggle_buttons.currentItemSlug"
                  @closePopup="closePopup"/>
 
     <div class="block">
@@ -19,7 +20,7 @@
             <button class="tags__add-btn" @click="showAddNewTag=!showAddNewTag">&#10133;</button>
             <div class="tags__add-new" v-if="showAddNewTag">
                 <input type="text" v-model="tags.newTag" placeholder="Введіть назву">
-                <button @click="addNewTag">Додати</button>
+                <button @click="addNewTag(toggle_buttons.currentItemSlug)">Додати</button>
                 <p v-if="tags.error.length!==0">{{ tags.error }}</p>
             </div>
         </section>
@@ -63,7 +64,8 @@
                 <ul class="pagination__items">
                     <li class="items__btn-prev" v-if="pagination.currentPage > 1"
                         @click="goToPage(pagination.currentPage - 1)"><a>&laquo;</a></li>
-                    <li class="items__btn" v-for="page in pagination.lastPage" :key="page"
+                    <li v-if="pagination.lastPage!==1" class="items__btn" v-for="page in pagination.lastPage"
+                        :key="page"
                         :class="{ 'items__btn--active': page === pagination.currentPage }"
                         @click="goToPage(page)">
                         <a>{{ page }}</a>
@@ -94,12 +96,13 @@ export default {
 
             toggle_buttons: {
                 btns: [
-                    {name: 'Вишиванки'},
-                    {name: 'Бісер'},
-                    {name: 'Схеми вишивок'},
-                    {name: 'Жіночий одяг'},
+                    {name: 'Вишиванки', slug: 'vishivanki'},
+                    {name: 'Бісер', slug: 'biser'},
+                    {name: 'Схеми вишивок', slug: 'schemes'},
+                    {name: 'Жіночий одяг', slug: 'clothes'},
                 ],
                 activeButton: 0,
+                currentItemSlug: 'vishivanki',
             },
             tags: {
                 tagsList: [],
@@ -125,16 +128,20 @@ export default {
     methods: {
         closePopup() {
             this.showAddProduct = false;
-            this.getProducts();
+            this.getProducts(this.toggle_buttons.currentItemSlug);
         },
 
         setActiveButton(index) {
             this.toggle_buttons.activeButton = index;
+            this.toggle_buttons.currentItemSlug = this.toggle_buttons.btns[index].slug;
+            this.loadAllData();
         },
+
         //////
-        getAllTags() {
+        getAllTags(slugName) {
+
             this.tags.tagsList = []
-            axios.get('/api/vishivanki/get-tags')
+            axios.get('/api/' + slugName + '/get-tags')
                 .then(resp => {
                     resp.data.forEach((e) => {
                         this.tags.tagsList.push(e.name);
@@ -142,12 +149,13 @@ export default {
                 })
         },
 
-        addNewTag() {
-            axios.post('/api/vishivanki/new-tag', {
+        addNewTag(slugName) {
+
+            axios.post('/api/' + slugName + '/new-tag', {
                 name: this.tags.newTag
             })
                 .then(resp => {
-                    this.getAllTags();
+                    this.getAllTags(slugName);
                     this.showAddNewTag = false
                     this.tags.newTag = ''
                     this.tags.error = ''
@@ -158,8 +166,8 @@ export default {
                 })
         },
 
-        getProducts(page = 1) {
-            axios.get('/api/vishivanki/get-all?page=' + page)
+        getProducts(slugName, page = 1) {
+            axios.get(`/api/${slugName}/get-all?page=` + page)
                 .then(resp => {
                     this.products.productList = [];
                     const products = resp.data.data;
@@ -167,17 +175,20 @@ export default {
                     this.pagination.currentPage = resp.data.current_page;
                     this.pagination.lastPage = resp.data.last_page;
 
-                    products.forEach(elem => {
-                        const product = {
-                            image: '/storage/uploads/products/vishivanki/' + elem.image,
-                            title: elem.title,
-                            description: elem.description,
-                            price: elem.price,
-                            tag: elem.vishivanki_tag.name
-                        };
+                    if (products) {
+                        products.forEach(elem => {
+                            const product = {
+                                image: `/storage/uploads/products/${slugName}/` + elem.image,
+                                title: elem.title,
+                                description: elem.description,
+                                price: elem.price,
+                                tag: elem[`${slugName}_tag`].name
+                            };
 
-                        this.products.productList.push(product);
-                    })
+
+                            this.products.productList.push(product);
+                        })
+                    }
 
                     this.showLoading = false;
                 })
@@ -187,12 +198,17 @@ export default {
         },
 
         goToPage(page) {
-            this.getProducts(page);
+            this.getProducts(this.toggle_buttons.currentItemSlug, page);
         },
+
+        loadAllData() {
+            const itemSlug = this.toggle_buttons.currentItemSlug;
+            this.getAllTags(itemSlug);
+            this.getProducts(itemSlug);
+        }
     },
     mounted() {
-        this.getAllTags();
-        this.getProducts();
+        this.loadAllData()
     }
 }
 </script>

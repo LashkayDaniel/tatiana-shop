@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BiserController;
+use App\Http\Controllers\BiserTagsController;
 use App\Http\Controllers\MainSettingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\VishivankiController;
@@ -34,6 +36,7 @@ Route::prefix('/slider')->group(function () {
     Route::get('/get', [SliderController::class, 'get']);
 });
 
+///products
 Route::prefix('/vishivanki')->group(function () {
     Route::post('/new-tag', [VishivankiTagsController::class, 'store']);
     Route::get('/get-tags', [VishivankiTagsController::class, 'get']);
@@ -41,6 +44,15 @@ Route::prefix('/vishivanki')->group(function () {
     Route::get('/get-all', [VishivankiController::class, 'get']);
     Route::post('/get-all', [VishivankiController::class, 'getAllWithParam']);
     Route::post('/create', [VishivankiController::class, 'store']);
+});
+
+Route::prefix('/biser')->group(function () {
+    Route::post('/new-tag', [BiserTagsController::class, 'store']);
+    Route::get('/get-tags', [BiserTagsController::class, 'get']);
+
+    Route::get('/get-all', [BiserController::class, 'get']);
+    Route::post('/get-all', [BiserController::class, 'getAllWithParam']);
+    Route::post('/create', [BiserController::class, 'store']);
 });
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
