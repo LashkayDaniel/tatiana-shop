@@ -98,7 +98,7 @@ export default {
                 btns: [
                     {name: 'Вишиванки', slug: 'vishivanki'},
                     {name: 'Бісер', slug: 'biser'},
-                    {name: 'Схеми вишивок', slug: 'schemes'},
+                    {name: 'Схеми вишивок', slug: 'scheme'},
                     {name: 'Жіночий одяг', slug: 'clothes'},
                 ],
                 activeButton: 0,
@@ -175,6 +175,9 @@ export default {
                     this.pagination.currentPage = resp.data.current_page;
                     this.pagination.lastPage = resp.data.last_page;
 
+                    console.log(slugName);
+                    console.log(products);
+
                     if (products) {
                         products.forEach(elem => {
                             const product = {
@@ -189,7 +192,6 @@ export default {
                             this.products.productList.push(product);
                         })
                     }
-
                     this.showLoading = false;
                 })
                 .catch(error => {

@@ -58,12 +58,9 @@
                     <div class="card__block">
                         <h2 class="block__title">Схеми для вишивання</h2>
                         <ul class="block__items">
-                            <li>Жіночі</li>
-                            <li>Чоловічі</li>
-                            <li>Дитячі</li>
-                            <li>Дитячі</li>
+                            <li v-for="tag in this.tags.schemesList">{{ tag }}</li>
                         </ul>
-                        <router-link to="/products/schemes">
+                        <router-link to="/products/scheme">
                             <div class="block__btn">Переглянути</div>
                         </router-link>
                     </div>
@@ -73,9 +70,7 @@
                     <div class="card__block">
                         <h2 class="block__title">Жіночий одяг</h2>
                         <ul class="block__items">
-                            <li>Жіночі</li>
-                            <li>Чоловічі</li>
-                            <li>Дитячі</li>
+                            <li v-for="tag in this.tags.clothesList">{{ tag }}</li>
                         </ul>
                         <router-link to="/products/clothes">
                             <div class="block__btn">Переглянути</div>
@@ -139,13 +134,6 @@ export default {
                 address: '',
             },
             slider: {
-                slidess: [
-                    'https://via.placeholder.com/700x300?text=Slide+1',
-                    'https://via.placeholder.com/700x300?text=Slide+2',
-                    'https://via.placeholder.com/700x300?text=Slide+3',
-                    'https://via.placeholder.com/700x300?text=Slide+4',
-                    'https://via.placeholder.com/700x300?text=Slide+5',
-                ],
                 slides: [
                     {
                         imageName: 'https://via.placeholder.com/700x300?text=Slide+1',
@@ -212,15 +200,17 @@ export default {
         },
 
         ///tags
-        getVishivankiTags() {
-            this.tags.vishivankiList = []
-            axios.get('/api/vishivanki/get-tags')
+        getTags(productName) {
+            let tagsArray = []
+            axios.get(`/api/${productName}/get-tags`)
                 .then(resp => {
                     resp.data.forEach((e) => {
-                        this.tags.vishivankiList.push(e.name);
+                        tagsArray.push(e.name);
                     });
                 })
+            return tagsArray;
         },
+
         getBiserTags() {
             this.tags.biserList = []
             axios.get('/api/biser/get-tags')
@@ -232,12 +222,26 @@ export default {
         },
 
     },
-    mounted() {
+    mounted: function () {
         this.getMainInfo();
         this.getSlides();
 
-        this.getVishivankiTags();
-        this.getBiserTags();
+        // this.getVishivankiTags();
+        // this.getBiserTags();
+
+        const productNames = [
+            'vishivanki',
+            'biser',
+            'scheme',
+            'clothes'
+        ];
+
+
+        productNames.forEach((elem, index) => {
+            // Object.keys(this.tags)[index] = this.getTags(elem);
+            // console.log(this.getTags(elem));
+            this.tags[Object.keys(this.tags)[index]] = this.getTags(elem);
+        });
 
         this.slider.autoPlayTimer = setInterval(this.nextSlide, this.slider.autoPlayDelay);
     },

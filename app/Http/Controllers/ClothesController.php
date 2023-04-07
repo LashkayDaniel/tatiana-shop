@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vishivanki;
-use App\Models\VishivankiTags;
+use App\Models\Clothes;
+use App\Models\ClothesTags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class VishivankiController extends Controller
+class ClothesController extends Controller
 {
     public function get()
     {
-        return Vishivanki::with('vishivankiTag')->orderBy('id', 'desc')->paginate(10);
-//        $vis = VishivankiTags::find(1);
-//        return $vis->vishivanki;
+        return Clothes::with('clothesTag')->orderBy('id', 'desc')->paginate(10);
     }
 
     public function getAllWithParam(Request $request)
@@ -21,11 +19,11 @@ class VishivankiController extends Controller
         $tagName = $request->input('tag_name');
 
         if ($tagName === 'all') {
-            return Vishivanki::with('vishivankiTag')->paginate(10);
+            return Clothes::with('clothesTag')->paginate(10);
         }
 
-        $tag = VishivankiTags::where('name', $tagName)->first();
-        return Vishivanki::with('vishivankiTag')->where('vishivanki_tag_id', $tag->id)->paginate(5);
+        $tag = ClothesTags::where('name', $tagName)->first();
+        return Clothes::with('clothesTag')->where('clothes_tag_id', $tag->id)->paginate(5);
     }
 
     public function store(Request $request)
@@ -52,21 +50,21 @@ class VishivankiController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalName();
-            $image->storeAs('uploads/products/vishivanki', $imageName, 'public');
+            $image->storeAs('uploads/products/clothes', $imageName, 'public');
 
-            $vishivanka = new Vishivanki();
-            $vishivanka->image = $imageName;
-            $vishivanka->title = $request->input('title');
-            $vishivanka->description = $request->input('description');
-            $vishivanka->price = $request->input('price');
-            $tag = VishivankiTags::where('name', $request->input('tag_name'))->first();
-            $vishivanka->vishivanki_tag_id = $tag ? $tag->id : $request->input('tag_id');
-            $vishivanka->save();
+            $clothes = new Clothes();
+            $clothes->image = $imageName;
+            $clothes->title = $request->input('title');
+            $clothes->description = $request->input('description');
+            $clothes->price = $request->input('price');
+            $tag = ClothesTags::where('name', $request->input('tag_name'))->first();//find('));
+            $clothes->clothes_tag_id = $tag ? $tag->id : 1;
+            $clothes->save();
 
             return response()->json([
                 'status' => true,
                 'message' => 'Товар успішно додано!',
-                'vishivanka' => $vishivanka,
+                'biser' => $clothes,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

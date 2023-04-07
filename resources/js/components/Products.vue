@@ -182,26 +182,18 @@ export default {
 
         this.getAllTags(this.routeName);
 
+        const routeTitles = {
+            vishivanki: 'Вишиванки',
+            biser: 'Бісер',
+            scheme: 'Схеми вишивок',
+            clothes: 'Жіночий одяг'
+        };
 
-        switch (this.routeName) {
-            case 'vishivanki':
-                this.pageTitle = 'Вишиванки';
-                this.getAllProducts(this.routeName);
-                break;
-            case 'biser':
-                this.pageTitle = 'Бісер';
-                this.getAllProducts(this.routeName);
-                break;
-            case 'schemes':
-                this.pageTitle = 'Схеми вишивок';
-
-                break;
-            case 'clothes':
-                this.pageTitle = 'Жіночий одяг';
-
-                break;
-            default:
-                this.$router.push({name: 'notFound'});
+        if (this.routeName in routeTitles) {
+            this.pageTitle = routeTitles[this.routeName];
+            this.getAllProducts(this.routeName);
+        } else {
+            this.$router.push({name: 'notFound'});
         }
     }
 }

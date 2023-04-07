@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vishivanki;
-use App\Models\VishivankiTags;
+use App\Models\Scheme;
+use App\Models\SchemeTags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class VishivankiController extends Controller
+class SchemeController extends Controller
 {
     public function get()
     {
-        return Vishivanki::with('vishivankiTag')->orderBy('id', 'desc')->paginate(10);
-//        $vis = VishivankiTags::find(1);
-//        return $vis->vishivanki;
+        return Scheme::with('schemeTag')->orderBy('id', 'desc')->paginate(10);
     }
 
     public function getAllWithParam(Request $request)
@@ -21,11 +19,11 @@ class VishivankiController extends Controller
         $tagName = $request->input('tag_name');
 
         if ($tagName === 'all') {
-            return Vishivanki::with('vishivankiTag')->paginate(10);
+            return Scheme::with('schemeTag')->paginate(10);
         }
 
-        $tag = VishivankiTags::where('name', $tagName)->first();
-        return Vishivanki::with('vishivankiTag')->where('vishivanki_tag_id', $tag->id)->paginate(5);
+        $tag = SchemeTags::where('name', $tagName)->first();
+        return Scheme::with('schemeTag')->where('scheme_tag_id', $tag->id)->paginate(5);
     }
 
     public function store(Request $request)
@@ -52,21 +50,21 @@ class VishivankiController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalName();
-            $image->storeAs('uploads/products/vishivanki', $imageName, 'public');
+            $image->storeAs('uploads/products/scheme', $imageName, 'public');
 
-            $vishivanka = new Vishivanki();
-            $vishivanka->image = $imageName;
-            $vishivanka->title = $request->input('title');
-            $vishivanka->description = $request->input('description');
-            $vishivanka->price = $request->input('price');
-            $tag = VishivankiTags::where('name', $request->input('tag_name'))->first();
-            $vishivanka->vishivanki_tag_id = $tag ? $tag->id : $request->input('tag_id');
-            $vishivanka->save();
+            $scheme = new Scheme();
+            $scheme->image = $imageName;
+            $scheme->title = $request->input('title');
+            $scheme->description = $request->input('description');
+            $scheme->price = $request->input('price');
+            $tag = SchemeTags::where('name', $request->input('tag_name'))->first();
+            $scheme->scheme_tag_id = $tag ? $tag->id : 1;
+            $scheme->save();
 
             return response()->json([
                 'status' => true,
                 'message' => 'Товар успішно додано!',
-                'vishivanka' => $vishivanka,
+                'biser' => $scheme,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

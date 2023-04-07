@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BiserController;
 use App\Http\Controllers\BiserTagsController;
+use App\Http\Controllers\ClothesController;
+use App\Http\Controllers\ClothesTagsController;
 use App\Http\Controllers\MainSettingController;
+use App\Http\Controllers\SchemeController;
+use App\Http\Controllers\SchemeTagsController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\VishivankiController;
 use App\Http\Controllers\VishivankiTagsController;
@@ -53,6 +57,24 @@ Route::prefix('/biser')->group(function () {
     Route::get('/get-all', [BiserController::class, 'get']);
     Route::post('/get-all', [BiserController::class, 'getAllWithParam']);
     Route::post('/create', [BiserController::class, 'store']);
+});
+
+Route::prefix('/scheme')->group(function () {
+    Route::post('/new-tag', [SchemeTagsController::class, 'store']);
+    Route::get('/get-tags', [SchemeTagsController::class, 'get']);
+
+    Route::get('/get-all', [SchemeController::class, 'get']);
+    Route::post('/get-all', [SchemeController::class, 'getAllWithParam']);
+    Route::post('/create', [SchemeController::class, 'store']);
+});
+
+Route::prefix('/clothes')->group(function () {
+    Route::post('/new-tag', [ClothesTagsController::class, 'store']);
+    Route::get('/get-tags', [ClothesTagsController::class, 'get']);
+
+    Route::get('/get-all', [ClothesController::class, 'get']);
+    Route::post('/get-all', [ClothesController::class, 'getAllWithParam']);
+    Route::post('/create', [ClothesController::class, 'store']);
 });
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
