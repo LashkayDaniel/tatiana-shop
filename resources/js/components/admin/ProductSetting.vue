@@ -2,7 +2,17 @@
 
     <add-product v-if="this.showAddProduct"
                  :product-name="this.toggle_buttons.currentItemSlug"
-                 @closePopup="closePopup"/>
+                 @closePopup="closeAddPopup"/>
+
+    <edit-product v-if="this.showEditProduct"
+                  :product-data="this.products.selectedProduct"
+                  @closeEditPopup="closeEditPopup"/>
+
+    <delete-product v-if="this.showDeleteProduct"
+                    :product-data="this.products.selectedProduct"
+                    :products-title="toggle_buttons.currentItemSlug"
+                    @closeDeletePopup="closeDeletePopup"/>
+
 
     <div class="block">
         <section class="products">
@@ -53,9 +63,9 @@
                     <td>{{ product.description }}</td>
                     <td>{{ product.price }}</td>
                     <td class="table__buttons">
-                        <button class="buttons__edit">Редагувати</button>
+                        <button class="buttons__edit" @click="editRow(product)">Редагувати</button>
                         <hr>
-                        <button class="buttons__remove">Видалити</button>
+                        <button class="buttons__remove" @click="deleteRow(product)">Видалити</button>
                     </td>
                 </tr>
             </table>
@@ -80,6 +90,8 @@
 
 <script>
 import AddProduct from "../admin/AddProduct.vue";
+import EditProduct from "../admin/EditProduct.vue";
+import DeleteProduct from "../admin/DeleteProduct.vue";
 import Loader from "../Loader.vue";
 
 export default {
@@ -87,11 +99,15 @@ export default {
     components: {
         addProduct: AddProduct,
         loader: Loader,
+        EditProduct,
+        DeleteProduct,
     },
     data() {
         return {
             showAddNewTag: false,
             showAddProduct: false,
+            showEditProduct: false,
+            showDeleteProduct: false,
             showLoading: true,
 
             toggle_buttons: {
@@ -116,6 +132,7 @@ export default {
                 title: '',
                 description: '',
                 price: '',
+                selectedProduct: '',
             },
 
             pagination: {
@@ -126,8 +143,18 @@ export default {
         }
     },
     methods: {
-        closePopup() {
+        closeAddPopup() {
             this.showAddProduct = false;
+            this.getProducts(this.toggle_buttons.currentItemSlug);
+        },
+
+        closeEditPopup() {
+            this.showEditProduct = false;
+            this.getProducts(this.toggle_buttons.currentItemSlug);
+        },
+
+        closeDeletePopup() {
+            this.showDeleteProduct = false;
             this.getProducts(this.toggle_buttons.currentItemSlug);
         },
 
@@ -175,12 +202,12 @@ export default {
                     this.pagination.currentPage = resp.data.current_page;
                     this.pagination.lastPage = resp.data.last_page;
 
-                    console.log(slugName);
                     console.log(products);
 
                     if (products) {
                         products.forEach(elem => {
                             const product = {
+                                id: elem.id,
                                 image: `/storage/uploads/products/${slugName}/` + elem.image,
                                 title: elem.title,
                                 description: elem.description,
@@ -207,7 +234,20 @@ export default {
             const itemSlug = this.toggle_buttons.currentItemSlug;
             this.getAllTags(itemSlug);
             this.getProducts(itemSlug);
+        },
+
+        //// update row
+        editRow(rowData) {
+            this.showEditProduct = true;
+            this.products.selectedProduct = rowData;
+            console.log(rowData);
+        },
+
+        deleteRow(rowData) {
+            this.showDeleteProduct = true;
+            this.products.selectedProduct = rowData;
         }
+
     },
     mounted() {
         this.loadAllData()
@@ -217,6 +257,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/../scss/admin-page/_product-setting.scss";
-
-
 </style>

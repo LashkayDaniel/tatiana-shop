@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Biser;
 use App\Models\BiserTags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BiserController extends Controller
@@ -67,6 +68,32 @@ class BiserController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'biser' => $biser,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $biserModel = Biser::find($id);
+            if ($biserModel) {
+                $deletedImageName = $biserModel->image;
+                $imageName = 'uploads/products/biser/' . $deletedImageName;
+                if (Storage::disk('public')->exists($imageName)) {
+                    Storage::disk('public')->delete($imageName);
+                }
+                $biserModel->delete();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно видалено!',
+                'biser' => $biserModel,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

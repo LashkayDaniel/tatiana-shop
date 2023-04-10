@@ -48,6 +48,7 @@ Route::prefix('/vishivanki')->group(function () {
     Route::get('/get-all', [VishivankiController::class, 'get']);
     Route::post('/get-all', [VishivankiController::class, 'getAllWithParam']);
     Route::post('/create', [VishivankiController::class, 'store']);
+    Route::delete('/delete/{id}', [VishivankiController::class, 'delete']);
 });
 
 Route::prefix('/biser')->group(function () {
@@ -57,6 +58,7 @@ Route::prefix('/biser')->group(function () {
     Route::get('/get-all', [BiserController::class, 'get']);
     Route::post('/get-all', [BiserController::class, 'getAllWithParam']);
     Route::post('/create', [BiserController::class, 'store']);
+    Route::delete('/delete/{id}', [BiserController::class, 'delete']);
 });
 
 Route::prefix('/scheme')->group(function () {
@@ -66,6 +68,7 @@ Route::prefix('/scheme')->group(function () {
     Route::get('/get-all', [SchemeController::class, 'get']);
     Route::post('/get-all', [SchemeController::class, 'getAllWithParam']);
     Route::post('/create', [SchemeController::class, 'store']);
+    Route::delete('/delete/{id}', [SchemeController::class, 'delete']);
 });
 
 Route::prefix('/clothes')->group(function () {
@@ -75,6 +78,7 @@ Route::prefix('/clothes')->group(function () {
     Route::get('/get-all', [ClothesController::class, 'get']);
     Route::post('/get-all', [ClothesController::class, 'getAllWithParam']);
     Route::post('/create', [ClothesController::class, 'store']);
+    Route::delete('/delete/{id}', [ClothesController::class, 'delete']);
 });
 
 //Route::post('/auth/register', [AuthController::class, 'register']);

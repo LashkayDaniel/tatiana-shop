@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vishivanki;
 use App\Models\VishivankiTags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class VishivankiController extends Controller
@@ -67,6 +68,32 @@ class VishivankiController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'vishivanka' => $vishivanka,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $vishivankaModel = Vishivanki::find($id);
+            if ($vishivankaModel) {
+                $deletedImageName = $vishivankaModel->image;
+                $imageName = 'uploads/products/vishivanki/' . $deletedImageName;
+                if (Storage::disk('public')->exists($imageName)) {
+                    Storage::disk('public')->delete($imageName);
+                }
+                $vishivankaModel->delete();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно видалено!',
+                'biser' => $vishivankaModel,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Scheme;
 use App\Models\SchemeTags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class SchemeController extends Controller
@@ -65,6 +66,32 @@ class SchemeController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'biser' => $scheme,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $schemeModel = Scheme::find($id);
+            if ($schemeModel) {
+                $deletedImageName = $schemeModel->image;
+                $imageName = 'uploads/products/scheme/' . $deletedImageName;
+                if (Storage::disk('public')->exists($imageName)) {
+                    Storage::disk('public')->delete($imageName);
+                }
+                $schemeModel->delete();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно видалено!',
+                'biser' => $schemeModel,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

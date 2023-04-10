@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clothes;
 use App\Models\ClothesTags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ClothesController extends Controller
@@ -65,6 +66,32 @@ class ClothesController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'biser' => $clothes,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $clothesModel = Clothes::find($id);
+            if ($clothesModel) {
+                $deletedImageName = $clothesModel->image;
+                $imageName = 'uploads/products/clothes/' . $deletedImageName;
+                if (Storage::disk('public')->exists($imageName)) {
+                    Storage::disk('public')->delete($imageName);
+                }
+                $clothesModel->delete();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно видалено!',
+                'biser' => $clothesModel,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
