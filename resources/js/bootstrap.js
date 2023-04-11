@@ -42,6 +42,19 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 );
+
+axios.interceptors.request.use(
+    config => {
+        const token = localStorage.getItem('x_xsrf_token'); // отримуємо токен з локального сховища
+        if (token) {
+            config.headers.authorization = `Bearer ${token}`; // додаємо токен в заголовок запиту
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 //
 // axios.interceptors.request.use((config) => {
 //     const token = localStorage.getItem('x_xsrf_token')

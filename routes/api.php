@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/settings')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/settings')->group(function () {
     Route::post('/create', [MainSettingController::class, 'store']);
     Route::get('/get', [MainSettingController::class, 'get']);
     Route::put('/update', [MainSettingController::class, 'update']);
@@ -94,4 +94,4 @@ Route::prefix('/clothes')->group(function () {
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/auth/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);

@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="navbar__bottom">
-                <button class="bottom__logout">Logout</button>
+                <button class="bottom__logout" @click.prevent="this.logout">Logout</button>
             </div>
         </aside>
 
@@ -57,6 +57,17 @@ export default {
         getToken() {
             const token = localStorage.getItem('x_xsrf_token');
             token ? this.tokenExist = true : this.tokenExist = false;
+        },
+        logout() {
+            axios.post('/api/auth/logout', null)
+                .then(resp => {
+                    console.log(resp);
+                    localStorage.removeItem('x_xsrf_token');
+                    location.reload();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
     },
     mounted() {

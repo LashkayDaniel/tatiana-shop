@@ -45,7 +45,8 @@ export default {
                     console.log(response.data)
                     this.loginError = '';
                     this.loginSuccess = true;
-                    localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
+                    // localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
+                    localStorage.setItem('x_xsrf_token', response.data.token);
                     setTimeout(() => {
                         this.$emit('loginSuccess')
                     }, 2000)
