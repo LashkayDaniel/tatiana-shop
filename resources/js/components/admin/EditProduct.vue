@@ -8,7 +8,7 @@
                 <!--                <p style="max-width: 500px">{{ props.productData }}</p>-->
                 <button @click="closePopup" class="header__btn">&#x2715</button>
             </div>
-            <form @submit.prevent="editProduct" class="product">
+            <form @submit.prevent="this.editProduct" class="product">
 
                 <div class="product__images">
                     <p class="product__title">Фото товара:
@@ -18,8 +18,7 @@
                     <div class="image-new">
                         <p class="product__title" style="color: #7c2929">Обрати нове фото:</p>
                         <input class="product__image" @change="onFileChange" ref="chooseImage" type="file"
-                               accept="image/*"
-                               required
+                               accept="image/png, image/gif, image/jpeg"
                                placeholder="Виберіть картинку">
                         <p class="product__error">{{ errors.image }}</p>
                     </div>
@@ -40,7 +39,7 @@
                           placeholder="Напишіть параметри товара"></textarea>
                 <p class="product__error">{{ errors.description }}</p>
 
-                <p class="product__title">Ціна:</p>
+                <p class="product__title">Ціна: </p>
                 <input type="number" class="product__input"
                        required
                        v-model="price"
@@ -48,8 +47,8 @@
                 <p class="product__error">{{ errors.price }}</p>
 
 
-                <p v-if="addSuccess.length!==0" class="product__success">{{ this.addSuccess }}</p>
-                <button class="product__btn" type="submit">Додати</button>
+                <p v-if="editSuccess.length!==0" class="product__success">{{ this.editSuccess }}</p>
+                <button class="product__btn" type="submit">Зберегти</button>
             </form>
         </div>
     </div>
@@ -61,16 +60,20 @@
 import {defineEmits, reactive, ref} from 'vue'
 
 const props = defineProps({
+    productsTitle: String,
     productData: Object,
+
 });
 const emits = defineEmits(['closeEditPopup'])
 
+const id = props.productData.id;
 const image = ref(props.productData.image);
+const newImage = ref('');
 const title = ref(props.productData.title);
 const description = ref(props.productData.description);
 const price = ref(props.productData.price);
 
-const addSuccess = ref('');
+const editSuccess = ref('');
 
 
 const errors = reactive({
@@ -86,11 +89,41 @@ function closePopup() {
 }
 
 function editProduct() {
+    const formData = new FormData();
+    if (newImage.value) {
+        formData.append('new_image', newImage.value);
+    }
+    const oldImageName = props.productData.image.split('/').pop();
+
+    formData.append('old_image', oldImageName);
+    formData.append('title', title.value);
+    formData.append('description', description.value);
+    formData.append('price', price.value);
+
+
+    console.log(props.productsTitle);
+    axios.post(`/api/${props.productsTitle}/update/${id}`, formData)
+        .then(resp => {
+            editSuccess.value = 'Товар успішно оновлено!'
+
+            setTimeout(() => {
+                this.closePopup()
+            }, 2000);
+        })
+        .catch(err => {
+            console.log(err);
+            const errors = err.response.data.errors;
+            errors.hasOwnProperty('new_image') ? this.errors.image = errors.new_image[0] : ''
+            errors.hasOwnProperty('title') ? this.errors.title = errors.title[0] : ''
+            errors.hasOwnProperty('description') ? this.errors.description = errors.description[0] : ''
+            errors.hasOwnProperty('price') ? this.errors.price = errors.price[0] : ''
+        })
 
 }
 
-function onFileChange() {
-
+function onFileChange(event) {
+    newImage.value = event.target.files[0];
+    image.value = URL.createObjectURL(event.target.files[0]);
 }
 
 

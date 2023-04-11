@@ -181,6 +181,28 @@
         width: 50%;
         word-wrap: break-word;
     }
+
+    &__remove {
+        position: relative;
+        padding: 12px;
+        border: solid 2px #ff0000;
+        border-radius: 50%;
+
+        span {
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff0000;
+        }
+
+        &:hover {
+            transition: .2s;
+            background-color: #f37676;
+        }
+    }
 }
 
 .add-new {

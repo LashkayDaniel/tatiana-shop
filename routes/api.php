@@ -38,48 +38,60 @@ Route::prefix('/settings')->group(function () {
 Route::prefix('/slider')->group(function () {
     Route::post('/create', [SliderController::class, 'store']);
     Route::get('/get', [SliderController::class, 'get']);
+    Route::delete('/delete/{id}/{imageName}', [SliderController::class, 'delete']);
 });
 
 ///products
 Route::prefix('/vishivanki')->group(function () {
     Route::post('/new-tag', [VishivankiTagsController::class, 'store']);
     Route::get('/get-tags', [VishivankiTagsController::class, 'get']);
+    Route::delete('/delete-tag/{id}', [VishivankiTagsController::class, 'delete']);
 
     Route::get('/get-all', [VishivankiController::class, 'get']);
     Route::post('/get-all', [VishivankiController::class, 'getAllWithParam']);
     Route::post('/create', [VishivankiController::class, 'store']);
+    Route::post('/update/{id}', [VishivankiController::class, 'edit']);
     Route::delete('/delete/{id}', [VishivankiController::class, 'delete']);
 });
 
 Route::prefix('/biser')->group(function () {
     Route::post('/new-tag', [BiserTagsController::class, 'store']);
     Route::get('/get-tags', [BiserTagsController::class, 'get']);
+    Route::delete('/delete-tag/{id}', [BiserTagsController::class, 'delete']);
 
     Route::get('/get-all', [BiserController::class, 'get']);
     Route::post('/get-all', [BiserController::class, 'getAllWithParam']);
     Route::post('/create', [BiserController::class, 'store']);
+    Route::post('/update/{id}', [BiserController::class, 'edit']);
     Route::delete('/delete/{id}', [BiserController::class, 'delete']);
 });
 
 Route::prefix('/scheme')->group(function () {
     Route::post('/new-tag', [SchemeTagsController::class, 'store']);
     Route::get('/get-tags', [SchemeTagsController::class, 'get']);
+    Route::delete('/delete-tag/{id}', [SchemeTagsController::class, 'delete']);
 
     Route::get('/get-all', [SchemeController::class, 'get']);
     Route::post('/get-all', [SchemeController::class, 'getAllWithParam']);
     Route::post('/create', [SchemeController::class, 'store']);
+    Route::post('/update/{id}', [SchemeController::class, 'edit']);
+
     Route::delete('/delete/{id}', [SchemeController::class, 'delete']);
 });
 
 Route::prefix('/clothes')->group(function () {
     Route::post('/new-tag', [ClothesTagsController::class, 'store']);
     Route::get('/get-tags', [ClothesTagsController::class, 'get']);
+    Route::delete('/delete-tag/{id}', [ClothesTagsController::class, 'delete']);
 
     Route::get('/get-all', [ClothesController::class, 'get']);
     Route::post('/get-all', [ClothesController::class, 'getAllWithParam']);
     Route::post('/create', [ClothesController::class, 'store']);
+    Route::post('/update/{id}', [ClothesController::class, 'edit']);
+
     Route::delete('/delete/{id}', [ClothesController::class, 'delete']);
 });
 
 //Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::get('/auth/logout', [AuthController::class, 'logout']);

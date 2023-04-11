@@ -20,7 +20,7 @@ class ClothesController extends Controller
         $tagName = $request->input('tag_name');
 
         if ($tagName === 'all') {
-            return Clothes::with('clothesTag')->paginate(10);
+            return Clothes::with('clothesTag')->orderBy('id', 'desc')->paginate(10);
         }
 
         $tag = ClothesTags::where('name', $tagName)->first();
@@ -66,6 +66,62 @@ class ClothesController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'biser' => $clothes,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function edit(Request $request, $id)
+    {
+        try {
+            $validateSlider = Validator::make(
+                $request->all(),
+                [
+                    'old_image' => 'min:5',
+                    'new_image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required|min:5',
+                    'description' => 'required|min:10',
+                    'price' => 'required|min:1',
+                ]
+            );
+
+            if ($validateSlider->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Помилка валідації даних',
+                    'errors' => $validateSlider->errors(),
+                ], 422);
+            }
+
+            $newImage = $request->file('new_image');
+            $oldImageName = $request->input('old_image');
+
+            if ($newImage) {
+                $imageName = time() . '.' . $newImage->getClientOriginalName();
+                $newImage->storeAs('uploads/products/clothes', $imageName, 'public');
+                $oldImagePath = 'uploads/products/clothes/' . $oldImageName;
+                if (Storage::disk('public')->exists($oldImagePath)) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+            } else {
+                $imageName = $oldImageName;
+            }
+
+            $product = Clothes::find($id);
+            $product->image = $imageName;
+            $product->title = $request->input('title');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно оновлено!',
+                'clothes' => $product,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

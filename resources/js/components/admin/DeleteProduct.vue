@@ -4,7 +4,6 @@
         <div class="popup">
             <div class="popup__title">
                 Впевнені, що бажаєте видалити: <span>{{ props.productData.title }}</span>
-                <span>{{ props.productData.id }}</span>
             </div>
             <div class="popup__button">
                 <button class="button__permission" @click="deleteProduct(props.productData.id)">Так</button>

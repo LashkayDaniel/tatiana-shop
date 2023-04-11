@@ -6,6 +6,7 @@
 
     <edit-product v-if="this.showEditProduct"
                   :product-data="this.products.selectedProduct"
+                  :products-title="toggle_buttons.currentItemSlug"
                   @closeEditPopup="closeEditPopup"/>
 
     <delete-product v-if="this.showDeleteProduct"
@@ -26,7 +27,10 @@
         </section>
 
         <section class="tags">
-            <div class="tags__item" v-for="tag in tags.tagsList">{{ tag }}</div>
+            <div class="tags__item" v-for="tag in tags.tagsList">
+                {{ tag.name }}
+                <button class="tags__btn-delete" @click.prevent="this.deleteTag(tag.id)">&#10799;</button>
+            </div>
             <button class="tags__add-btn" @click="showAddNewTag=!showAddNewTag">&#10133;</button>
             <div class="tags__add-new" v-if="showAddNewTag">
                 <input type="text" v-model="tags.newTag" placeholder="Введіть назву">
@@ -69,6 +73,11 @@
                     </td>
                 </tr>
             </table>
+
+            <p class="products-list__not-found" v-if="products.productList.length===0 && showLoading===false">
+                <i>Товари відсутні. Додайте нові</i>
+            </p>
+
 
             <nav class="pagination">
                 <ul class="pagination__items">
@@ -171,7 +180,10 @@ export default {
             axios.get('/api/' + slugName + '/get-tags')
                 .then(resp => {
                     resp.data.forEach((e) => {
-                        this.tags.tagsList.push(e.name);
+                        this.tags.tagsList.push({
+                            id: e.id,
+                            name: e.name
+                        });
                     });
                 })
         },
@@ -190,6 +202,17 @@ export default {
                 .catch(err => {
                     const errors = err.response.data.errors;
                     errors.hasOwnProperty('name') ? this.tags.error = errors.name[0] : ''
+                })
+        },
+
+        deleteTag(id) {
+            const slug = this.toggle_buttons.currentItemSlug;
+            axios.delete(`/api/${slug}/delete-tag/${id}`)
+                .then(resp => {
+                    this.getAllTags(slug);
+                })
+                .catch(err => {
+                    console.log(err);
                 })
         },
 

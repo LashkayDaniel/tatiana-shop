@@ -47,4 +47,10 @@ class ClothesTagsController extends Controller
     {
         return ClothesTags::all();
     }
+
+    public function delete($id)
+    {
+        $tag = ClothesTags::find($id);
+        return $tag->delete() ?? $tag;
+    }
 }

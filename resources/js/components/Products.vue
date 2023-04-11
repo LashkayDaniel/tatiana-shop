@@ -45,6 +45,8 @@
                     </div>
                 </div>
 
+                <p v-if="products.productList.length===0 && showLoading===false">Товари відсутні</p>
+
                 <nav class="pagination">
                     <ul class="pagination__btns">
                         <li class="btns__btn-prev" v-if="pagination.currentPage > 1"

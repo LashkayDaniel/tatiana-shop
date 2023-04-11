@@ -50,6 +50,8 @@
                          alt="image"
                     >
                     <div class="item__description">{{ slider.description }}</div>
+                    <button class="item__remove" @click.prevent="this.deleteSlide(slider.id,slider.image_name)">
+                        <span></span></button>
                 </div>
             </div>
 
@@ -199,6 +201,16 @@ export default {
             axios.get('/api/slider/get')
                 .then(resp => {
                     this.sliders = resp.data;
+                })
+        },
+
+        deleteSlide(id, imageName) {
+            axios.delete(`/api/slider/delete/${id}/${imageName}`)
+                .then(resp => {
+                    this.getAllSliders();
+                })
+                .catch(err => {
+                    console.log(err);
                 })
         }
 

@@ -47,4 +47,10 @@ class BiserTagsController extends Controller
     {
         return BiserTags::all();
     }
+
+    public function delete($id)
+    {
+        $tag = BiserTags::find($id);
+        return $tag->delete() ?? $tag;
+    }
 }

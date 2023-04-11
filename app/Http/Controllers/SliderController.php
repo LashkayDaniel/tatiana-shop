@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class SliderController extends Controller
@@ -51,5 +52,30 @@ class SliderController extends Controller
     public function get()
     {
         return Slider::all();
+    }
+
+    public function delete($id, $imageName)
+    {
+        try {
+            $slider = Slider::find($id);
+            if ($slider) {
+                $imagePath = 'uploads/' . $imageName;
+                if (Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $slider->delete();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Слайдер успішно видалено!',
+                'slider' => $slider,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 }

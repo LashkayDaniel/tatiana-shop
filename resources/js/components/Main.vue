@@ -8,7 +8,8 @@
         </template>
     </navbar>
 
-    <section class="slider">
+    <loader v-if="main.showLoading"/>
+    <section v-else class="slider">
         <img class="slider__image"
              :src="slider.slides[slider.currentSlideIndex].imageName"
              @load="onImageLoaded"
@@ -113,6 +114,7 @@
 <script>
 import Header from "./Header.vue";
 import ToTop from "./ToTop.vue";
+import Loader from "./Loader.vue";
 
 export default {
 
@@ -120,10 +122,12 @@ export default {
     components: {
         navbar: Header,
         toTop: ToTop,
+        Loader
     },
     data() {
         return {
             main: {
+                showLoading: true,
                 imageLoaded: false,
                 schedule: {
                     first: '',
@@ -134,12 +138,7 @@ export default {
                 address: '',
             },
             slider: {
-                slides: [
-                    {
-                        imageName: 'https://via.placeholder.com/700x300?text=Slide+1',
-                        description: 'Ми пропонуємо широкий вибір традиційних та сучасних вишиванок, що виготовлені з якісних матеріалів та здатні виразити Вашу унікальність та стиль.'
-                    },
-                ],
+                slides: [],
                 currentSlideIndex: 0,
                 autoPlayTimer: null,
                 autoPlayDelay: 10000
@@ -179,6 +178,8 @@ export default {
                         };
                         this.slider.slides.push(newSlide);
                     })
+
+                    this.main.showLoading = false;
                 })
         },
 

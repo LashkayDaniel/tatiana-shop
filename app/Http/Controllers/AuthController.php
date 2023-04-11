@@ -101,7 +101,7 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request): \Illuminate\Http\JsonResponse
+    public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
 //        auth()->user()->tokens()->delete();

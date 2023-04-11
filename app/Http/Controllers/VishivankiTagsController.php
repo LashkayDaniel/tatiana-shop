@@ -43,7 +43,14 @@ class VishivankiTagsController extends Controller
         }
     }
 
-    public function get(){
+    public function get()
+    {
         return VishivankiTags::all();
+    }
+
+    public function delete($id)
+    {
+        $tag = VishivankiTags::find($id);
+        return $tag->delete() ?? $tag;
     }
 }

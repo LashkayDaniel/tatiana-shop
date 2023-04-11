@@ -22,11 +22,13 @@ class VishivankiController extends Controller
         $tagName = $request->input('tag_name');
 
         if ($tagName === 'all') {
-            return Vishivanki::with('vishivankiTag')->paginate(10);
+            return Vishivanki::with('vishivankiTag')->orderBy('id', 'desc')->paginate(10);
         }
 
         $tag = VishivankiTags::where('name', $tagName)->first();
-        return Vishivanki::with('vishivankiTag')->where('vishivanki_tag_id', $tag->id)->paginate(5);
+        return Vishivanki::with('vishivankiTag')->where('vishivanki_tag_id', $tag->id)->paginate(
+            5
+        );
     }
 
     public function store(Request $request)
@@ -68,6 +70,62 @@ class VishivankiController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'vishivanka' => $vishivanka,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function edit(Request $request, $id)
+    {
+        try {
+            $validateSlider = Validator::make(
+                $request->all(),
+                [
+                    'old_image' => 'min:5',
+                    'new_image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required|min:5',
+                    'description' => 'required|min:10',
+                    'price' => 'required|min:1',
+                ]
+            );
+
+            if ($validateSlider->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Помилка валідації даних',
+                    'errors' => $validateSlider->errors(),
+                ], 422);
+            }
+
+            $newImage = $request->file('new_image');
+            $oldImageName = $request->input('old_image');
+
+            if ($newImage) {
+                $imageName = time() . '.' . $newImage->getClientOriginalName();
+                $newImage->storeAs('uploads/products/vishivanki', $imageName, 'public');
+                $oldImagePath = 'uploads/products/vishivanki/' . $oldImageName;
+                if (Storage::disk('public')->exists($oldImagePath)) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+            } else {
+                $imageName = $oldImageName;
+            }
+
+            $product = Vishivanki::find($id);
+            $product->image = $imageName;
+            $product->title = $request->input('title');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно оновлено!',
+                'vishivanki' => $product,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

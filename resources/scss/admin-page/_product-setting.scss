@@ -49,6 +49,7 @@
         padding: 5px 10px;
         border: solid 2px #4b5563;
         border-radius: 15px;
+        position: relative;
     }
 
     &__add-btn {
@@ -101,6 +102,25 @@
             }
         }
     }
+
+    &__btn-delete {
+        background-color: rgb(245, 37, 37);
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+        width: 22px;
+        height: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: rgb(241, 109, 109);
+            transition: .3s;
+        }
+    }
 }
 
 .products-list {
@@ -149,6 +169,12 @@
             background-color: #c2b7b7;
             color: #6e5656;
         }
+    }
+
+    &__not-found {
+        color: #8d5858;
+        margin-top: 30px;
+        text-align: center;
     }
 }
 

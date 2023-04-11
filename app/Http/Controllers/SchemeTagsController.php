@@ -47,4 +47,10 @@ class SchemeTagsController extends Controller
     {
         return SchemeTags::all();
     }
+
+    public function delete($id)
+    {
+        $tag = SchemeTags::find($id);
+        return $tag->delete() ?? $tag;
+    }
 }

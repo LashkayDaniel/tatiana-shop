@@ -22,7 +22,7 @@ class BiserController extends Controller
         $tagName = $request->input('tag_name');
 
         if ($tagName === 'all') {
-            return Biser::with('biserTag')->paginate(10);
+            return Biser::with('biserTag')->orderBy('id', 'desc')->paginate(10);
         }
 
         $tag = BiserTags::where('name', $tagName)->first();
@@ -68,6 +68,62 @@ class BiserController extends Controller
                 'status' => true,
                 'message' => 'Товар успішно додано!',
                 'biser' => $biser,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function edit(Request $request, $id)
+    {
+        try {
+            $validateSlider = Validator::make(
+                $request->all(),
+                [
+                    'old_image' => 'min:5',
+                    'new_image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required|min:5',
+                    'description' => 'required|min:10',
+                    'price' => 'required|min:1',
+                ]
+            );
+
+            if ($validateSlider->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Помилка валідації даних',
+                    'errors' => $validateSlider->errors(),
+                ], 422);
+            }
+
+            $newImage = $request->file('new_image');
+            $oldImageName = $request->input('old_image');
+
+            if ($newImage) {
+                $imageName = time() . '.' . $newImage->getClientOriginalName();
+                $newImage->storeAs('uploads/products/biser', $imageName, 'public');
+                $oldImagePath = 'uploads/products/biser/' . $oldImageName;
+                if (Storage::disk('public')->exists($oldImagePath)) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+            } else {
+                $imageName = $oldImageName;
+            }
+
+            $product = Biser::find($id);
+            $product->image = $imageName;
+            $product->title = $request->input('title');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Товар успішно оновлено!',
+                'biser' => $product,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
