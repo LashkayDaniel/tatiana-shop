@@ -1,25 +1,36 @@
 <template>
-    <nav class="header">
-        <div class="container">
-            <div class="schedule">
-                <h2 class="schedule__title">Графік роботи</h2>
-                <p class="schedule__subtitle">{{ this.schedule.first }}</p>
-                <p class="schedule__subtitle">{{ this.schedule.second }}</p>
-            </div>
+    <header>
+        <nav class="header">
+            <div class="container">
+                <div class="schedule">
+                    <h2 class="schedule__title">Графік роботи</h2>
+                    <p class="schedule__subtitle">{{ this.schedule.first }}</p>
+                    <p class="schedule__subtitle">{{ this.schedule.second }}</p>
+                </div>
 
-            <router-link to="/">
-                <img class="logo" src="@/../img/logo.svg" alt="logo">
-            </router-link>
+                <router-link to="/">
+                    <img class="logo" src="@/../img/logo.svg" alt="logo">
+                </router-link>
 
-            <div class="links">
-                <slot name="links"></slot>
-                <slot name="phone"></slot>
+                <div class="links">
+                    <slot name="links"></slot>
+                    <slot name="phone"></slot>
+                </div>
+
+                <div class="burger" @click="showBurger" :class="{'active': activeBurger}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
+    <div class="menu" :class="{'menu':activeBurger}"></div>
+
 </template>
 
 <script>
+
 export default {
     name: "Header",
     data() {
@@ -28,6 +39,7 @@ export default {
                 first: '',
                 second: ''
             },
+            activeBurger: false,
         }
     },
     methods: {
@@ -38,6 +50,10 @@ export default {
                     this.schedule.first = schedule[0]
                     this.schedule.second = schedule[1]
                 })
+        },
+        showBurger() {
+            this.activeBurger = !this.activeBurger;
+            console.log(this.activeBurger);
         }
     },
     mounted() {
@@ -100,6 +116,36 @@ export default {
     gap: 25px;
 }
 
+.burger {
+    display: none;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #7c2929;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+}
+
+.active {
+    &::before {
+        top: 8px;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        bottom: 8px;
+        transform: rotate(-45deg);
+    }
+
+    span {
+        transform: scale(0);
+    }
+}
 
 ///////   media queries
 @media (max-width: 1000px) {
@@ -117,23 +163,69 @@ export default {
 
 @media (max-width: 780px) {
     .links, .schedule {
-        display: none;
+        position: absolute;
+        top: -100px;
     }
 
     .logo {
         left: 0;
         transform: translate(0%, -50%) scale(0.9);
     }
-}
 
-@media (max-width: 580px) {
+    .burger {
+        position: absolute;
+        right: 0;
+        display: block;
+        width: 25px;
+        height: 20px;
 
-    .container {
-        height: 50px;
+        span {
+            //position: absolute;
+            //top: 8px;
+            //left: 0;
+            //width: 100%;
+            //height: 3px;
+            //background-color: #000000;
+            //transition: all .3s ease 0s;
+            display: block;
+            width: 100%;
+            height: 3px;
+            margin: 5px;
+            background-color: #854040;
+
+        }
+
+        .active {
+            span {
+            }
+
+        }
+
+        .menu {
+            display: block;
+        }
     }
 
-    .logo {
-        max-width: 200px;
+
+    @media (max-width: 580px) {
+
+        .container {
+            height: 50px;
+        }
+
+        .logo {
+            max-width: 200px;
+        }
     }
+
+
+    @media (max-width: 400px) {
+
+
+        .logo {
+            max-width: 180px;
+        }
+    }
+
 }
 </style>

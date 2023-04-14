@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->prefix('/settings')->group(function () {
+Route::prefix('/settings')->group(function () {
     Route::post('/create', [MainSettingController::class, 'store']);
     Route::get('/get', [MainSettingController::class, 'get']);
     Route::put('/update', [MainSettingController::class, 'update']);

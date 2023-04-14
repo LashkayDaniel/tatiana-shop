@@ -98,7 +98,9 @@
             <div class="location__info">
                 <div class="info__contacts">
                     <p class="contacts__title"><span>Контакти:</span></p>
-                    <p class="contacts__phone">{{ this.main.phone }}</p>
+                    <p class="contacts__phone">
+                        <img src="../../img/phone.png" alt="phone">
+                        {{ this.main.phone }}</p>
                 </div>
                 <div class="info__schedule">
                     <p class="schedule__title"><span>Графік роботи:</span></p>
