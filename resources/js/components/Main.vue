@@ -1,10 +1,10 @@
 <template>
 
     <toTop/>
-    <navbar>
+    <navbar :hide="this.hideBurger">
         <template v-slot:links>
-            <a href="#products" class="links__btn">Товари</a>
-            <a href="#about-us" class="links__btn">Про нас</a>
+            <a @click="hideBurger" href="#products" class="links__btn">Товари</a>
+            <a @click="hideBurger" href="#about-us" class="links__btn">Про нас</a>
         </template>
     </navbar>
 
@@ -131,6 +131,8 @@ export default {
             main: {
                 showLoading: true,
                 imageLoaded: false,
+                hideBurger: false,
+
                 schedule: {
                     first: '',
                     second: '',
@@ -156,6 +158,9 @@ export default {
         }
     },
     methods: {
+        hideBurger() {
+            return true;
+        },
         getMainInfo() {
             axios.get('/api/settings/get')
                 .then(resp => {
@@ -214,23 +219,11 @@ export default {
             return tagsArray;
         },
 
-        getBiserTags() {
-            this.tags.biserList = []
-            axios.get('/api/biser/get-tags')
-                .then(resp => {
-                    resp.data.forEach((e) => {
-                        this.tags.biserList.push(e.name);
-                    });
-                })
-        },
 
     },
-    mounted: function () {
+    mounted() {
         this.getMainInfo();
         this.getSlides();
-
-        // this.getVishivankiTags();
-        // this.getBiserTags();
 
         const productNames = [
             'vishivanki',
@@ -241,8 +234,6 @@ export default {
 
 
         productNames.forEach((elem, index) => {
-            // Object.keys(this.tags)[index] = this.getTags(elem);
-            // console.log(this.getTags(elem));
             this.tags[Object.keys(this.tags)[index]] = this.getTags(elem);
         });
 
@@ -282,6 +273,7 @@ export default {
         font-size: 18px;
         padding: 8px 10px;
         border: solid 2px #7a3333;
+        max-height: 45px;
 
         &:hover {
             opacity: .8;
@@ -301,7 +293,6 @@ export default {
     }
 }
 
-///test
 
 @media (max-width: 450px) {
     .slider__info {

@@ -1,8 +1,9 @@
 <template>
-    <header>
+    <header hide="">
         <nav class="header">
             <div class="container">
-                <div class="schedule">
+                <div class="schedule" @activeBurger="this.activeBurger=false"
+                     :class="{'schedule__active':activeBurger}">
                     <h2 class="schedule__title">Графік роботи</h2>
                     <p class="schedule__subtitle">{{ this.schedule.first }}</p>
                     <p class="schedule__subtitle">{{ this.schedule.second }}</p>
@@ -12,20 +13,19 @@
                     <img class="logo" src="@/../img/logo.svg" alt="logo">
                 </router-link>
 
-                <div class="links">
+                <div class="links" @activeBurger="this.activeBurger=false" :class="{'links__active': activeBurger}">
                     <slot name="links"></slot>
                     <slot name="phone"></slot>
                 </div>
 
-                <div class="burger" @click="showBurger" :class="{'active': activeBurger}">
-                    <span></span>
-                    <span></span>
+                <div class="burger" @active-burger="alert('ok')" @click="showBurger"
+                     :class="{'burger__active': activeBurger}">
                     <span></span>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="menu" :class="{'menu':activeBurger}"></div>
+    <div class="menu" @click.prevent="hideBurger" :class="{'menu__active': activeBurger}"></div>
 
 </template>
 
@@ -42,6 +42,11 @@ export default {
             activeBurger: false,
         }
     },
+    props: {
+        hide: {
+            required: true
+        },
+    },
     methods: {
         getSchedule() {
             axios.get('/api/settings/get')
@@ -54,7 +59,13 @@ export default {
         showBurger() {
             this.activeBurger = !this.activeBurger;
             console.log(this.activeBurger);
+        },
+
+        hideBurger() {
+            console.log(this.hide);
+            this.activeBurger = !this.hide;
         }
+
     },
     mounted() {
         this.getSchedule()
@@ -120,32 +131,6 @@ export default {
     display: none;
 }
 
-.menu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    background-color: #7c2929;
-    height: 100vh;
-    width: 100vw;
-    display: none;
-}
-
-.active {
-    &::before {
-        top: 8px;
-        transform: rotate(45deg);
-    }
-
-    &::after {
-        bottom: 8px;
-        transform: rotate(-45deg);
-    }
-
-    span {
-        transform: scale(0);
-    }
-}
 
 ///////   media queries
 @media (max-width: 1000px) {
@@ -163,8 +148,40 @@ export default {
 
 @media (max-width: 780px) {
     .links, .schedule {
-        position: absolute;
+        position: relative;
         top: -100px;
+
+        &__active {
+            top: 90px;
+            z-index: 1;
+            transition: all .6s ease 0s;
+
+        }
+    }
+    .schedule {
+        &__active {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 10;
+            width: 100%;
+            text-align: center;
+
+        }
+    }
+    .links {
+        &__active {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, 0);
+            z-index: 10;
+
+        }
     }
 
     .logo {
@@ -175,57 +192,95 @@ export default {
     .burger {
         position: absolute;
         right: 0;
-        display: block;
-        width: 25px;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 30px;
         height: 20px;
 
         span {
-            //position: absolute;
-            //top: 8px;
-            //left: 0;
-            //width: 100%;
-            //height: 3px;
-            //background-color: #000000;
-            //transition: all .3s ease 0s;
+            transition: all .3s ease 0s;
             display: block;
-            width: 100%;
+            width: 70%;
             height: 3px;
-            margin: 5px;
-            background-color: #854040;
+            background-color: #bd8a8a;
+        }
+
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background-color: #cc7676;
+            transition: all .3s ease 0s;
+        }
+
+        &::before {
+            top: 0;
+        }
+
+        &::after {
+            bottom: 0;
 
         }
 
-        .active {
+        &__active {
             span {
+                transform: scale(0);
             }
 
-        }
+            &::before {
+                top: 50%;
+                transform: rotate(45deg);
+            }
 
-        .menu {
-            display: block;
-        }
-    }
-
-
-    @media (max-width: 580px) {
-
-        .container {
-            height: 50px;
-        }
-
-        .logo {
-            max-width: 200px;
+            &::after {
+                top: 50%;
+                transform: rotate(-45deg);
+            }
         }
     }
 
+    .menu {
+        left: 100%;
 
-    @media (max-width: 400px) {
+        &__active {
+            position: fixed;
 
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 100px;
+            z-index: 5;
+            background-color: #dec7c7;
+            overflow: hidden;
+            transition: all .6s ease 0s;
 
-        .logo {
-            max-width: 180px;
         }
     }
 
 }
+
+@media (max-width: 580px) {
+
+    .container {
+        height: 50px;
+    }
+
+    .logo {
+        max-width: 200px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+
+    .logo {
+        max-width: 180px;
+    }
+}
+
+
 </style>
